@@ -106,7 +106,6 @@ const similarArtists = asyncHandler(
           "ARTISTS URL is not defined in environment variables"
         );
       }
-      // https://api.artsy.net/api/artists?similar_to_artist_id=4d8b928b4eb68a1b2c0001f2
       url += `?similar_to_artist_id=${id}`;
       const headers = { "X-XAPP-Token": token };
       console.log("Headers:", headers);
