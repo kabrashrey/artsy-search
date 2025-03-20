@@ -11,10 +11,10 @@ const registerUsers = asyncHandler(
   async (req: Request, res: Response): Promise<void> => {
     try {
       console.log("Registering User", req.body);
-      const { email, fullName, password } = req.body;
+      const { email, name, password } = req.body;
 
       // VALIDATION
-      if (!fullName?.trim() || !email?.trim() || !password?.trim()) {
+      if (!name?.trim() || !email?.trim() || !password?.trim()) {
         throw new APIError(400, "Name, email, and password are required");
       }
 
@@ -26,10 +26,10 @@ const registerUsers = asyncHandler(
       const avatar = await getGravatarUrl(email);
       console.log("Avatar:", avatar);
 
-      const user = new Users({ fullName, email, password, avatar });
+      const user = new Users({ name, email, password, avatar });
       await user.save();
 
-      const created_user = await Users.findById(user._id);
+      const created_user = await Users.findById(user._id).select("-password -refreshToken");
 
       if (!created_user) {
         throw new APIError(

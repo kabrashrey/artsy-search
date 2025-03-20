@@ -54,7 +54,7 @@ const getArtworks = asyncHandler(
       const finalResult = results.map((item: any) => ({
         id: item.id,
         title: item.title,
-        created_at: item.created_at,
+        date: item.date,
         thumbnail_href: item._links.thumbnail.href,
       }));
 

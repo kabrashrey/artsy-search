@@ -67,7 +67,7 @@ const getArtistDetails = asyncHandler(
         .json(
           new APIResponse(
             artsyResponse.status,
-            relevantData,
+            relevantData.length !== 0 ? relevantData : "",
             "Artist data fetched successfully"
           )
         );
