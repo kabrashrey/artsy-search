@@ -1,0 +1,11 @@
+runtime: nodejs20
+
+handlers:
+  - url: /
+    static_files: dist/index.html
+    upload: dist/index.html
+    http_headers:
+      Access-Control-Allow-Origin: "*"
+
+  - url: /
+    static_dir: dist/
