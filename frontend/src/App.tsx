@@ -1,7 +1,11 @@
+import React, { useState } from "react";
 import "bootstrap/dist/css/bootstrap.min.css";
-import { BrowserRouter as Router, Route, Routes } from "react-router-dom";
-import React from "react";
-import { useDispatch } from "react-redux";
+import {
+  BrowserRouter as Router,
+  Route,
+  Routes,
+  useParams,
+} from "react-router-dom";
 import Footer from "../components/Footer/Footer";
 import Navbar from "../components/Navbar/Navbar";
 import Register from "../components/Register/Register";
@@ -12,22 +16,43 @@ import ArtistTabs from "../components/Search/ArtistTabs";
 import SimilarArtist from "../components/Search/SimilarArtist";
 
 function App() {
-  const dispatch = useDispatch();
+  const ArtistTabsWrapper: React.FC = () => {
+    const { artistId } = useParams<{ artistId: string }>();
+    const [activeTab, setActiveTab] = useState("artist-info");
+    const user = JSON.parse(localStorage.getItem("user") || "{}");
 
-  // useEffect(() => {
-  //   const accessToken = localStorage.getItem("accessToken");
-  //   const refreshToken = localStorage.getItem("refreshToken");
-  //   if (accessToken && refreshToken) {
-  //     const user = JSON.parse(localStorage.getItem("user") || "{}");
-  //     dispatch(
-  //       loginActions.setLoginRequest({
-  //         accessToken,
-  //         refreshToken,
-  //         user,
-  //       })
-  //     );
-  //   }
-  // }, [dispatch]);
+    if (!artistId) {
+      return <div>Artist ID is required</div>;
+    }
+
+    return (
+      <ArtistTabs
+        artistId={artistId}
+        activeTab={activeTab}
+        setActiveTab={setActiveTab}
+        user={user}
+      />
+    );
+  };
+
+  const SimilarArtistWrapper: React.FC = () => {
+    const { artistId } = useParams<{ artistId: string }>();
+    const [activeTab, setActiveTab] = useState("artist-info");
+    const user = JSON.parse(localStorage.getItem("user") || "{}");
+
+    if (!artistId) {
+      return <div>Artist ID is required</div>;
+    }
+
+    return (
+      <SimilarArtist
+        similar_artists={[]} // Replace with actual similar artists data
+        activeTab={activeTab}
+        setActiveTab={setActiveTab}
+        user={user}
+      />
+    );
+  };
 
   return (
     <Router>
@@ -38,10 +63,10 @@ function App() {
           <Route path="/register" element={<Register />} />
           <Route path="/login" element={<Login />} />
           <Route path="/favorites" element={<Favorites />} />
-          <Route path="/artist/:artistId" element={<ArtistTabs />} />
+          <Route path="/artist/:artistId" element={<ArtistTabsWrapper />} />
           <Route
             path="/similar_artists/:artistId"
-            element={<SimilarArtist />}
+            element={<SimilarArtistWrapper />}
           />
         </Routes>
       </main>
