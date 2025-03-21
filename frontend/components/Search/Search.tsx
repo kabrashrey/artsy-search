@@ -1,0 +1,244 @@
+import React, { useState, useEffect } from "react";
+import { useDispatch, useSelector } from "react-redux";
+import { useLocation, useNavigate } from "react-router-dom";
+import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
+import { faStar as regularStar } from "@fortawesome/free-regular-svg-icons";
+import { faStar as solidStar } from "@fortawesome/free-solid-svg-icons";
+
+import {
+  Container,
+  Row,
+  Col,
+  Card,
+  Button,
+  Form,
+  InputGroup,
+  ButtonGroup,
+  Spinner,
+  Alert,
+} from "react-bootstrap";
+
+import { searchActions } from "./store/Action";
+
+import "./SearchStyles.scss";
+import ArtistTabs from "./ArtistTabs";
+import SimilarArtist from "./SimilarArtist";
+
+const Search: React.FC = () => {
+  const dispatch = useDispatch();
+  const location = useLocation();
+  const navigate = useNavigate();
+
+  const [selectedArtist, setSelectedArtist] = useState<string | null>(null);
+  const [activeTab, setActiveTab] = useState("artist-info");
+  const [artistName, setArtistName] = useState("");
+  const [searchPerformed, setSearchPerformed] = useState(false);
+
+  const { login_data } = useSelector((state: any) => state.login);
+  const { fav_data } = useSelector((state: any) => state.get_fav);
+  const user = JSON.parse(localStorage.getItem("user") || "{}");
+
+  const handleClear = () => {
+    setArtistName("");
+    setSelectedArtist(null);
+    setSearchPerformed(false);
+    dispatch(searchActions.clearSearchResults());
+  };
+
+  const handleSearch = () => {
+    if (artistName.trim()) {
+      setSelectedArtist(null);
+      setSearchPerformed(true);
+      dispatch(searchActions.getArtistRequest(artistName));
+    }
+    if (login_data || Object.keys(user).length > 0) {
+      const email = user ? user?.email : login_data?.user?.email;
+      dispatch(searchActions.getFav(email));
+    }
+  };
+  const handleKeyPress = (e: React.KeyboardEvent<HTMLInputElement>) => {
+    if (e.key === "Enter") {
+      handleSearch();
+    }
+  };
+
+  const handleArtistClick = (artistId: string) => {
+    setSelectedArtist(artistId);
+    dispatch(searchActions.getArtistDetails(artistId));
+    if (Object.keys(user).length > 0) {
+      dispatch(searchActions.getSimilarArtists(artistId));
+    }
+    // if (location.state) {
+    //   navigate("/", { state: { artistId: artistId } });
+    // }
+  };
+  const handleTabChange = (tab: string) => {
+    setActiveTab(tab);
+  };
+
+  const handleStarClick = (artist: any) => {
+    const isStarred = fav_data?.[artist.id];
+    if (isStarred) {
+      dispatch(searchActions.getRemoveFav(artist.id));
+    } else {
+      dispatch(
+        searchActions.getAddFav({ ...artist, email: login_data?.email })
+      );
+    }
+  };
+
+  const { search_loading, search_data, search_error } = useSelector(
+    (state: any) => state.search
+  );
+  const {
+    similar_artists_loading,
+    similar_artists_data,
+    similar_artists_error,
+  } = useSelector((state: any) => state.similar_artists);
+
+  let isStarred = false;
+  const starredArtists = "";
+
+  // useEffect(() => {
+  //   if (login_data || user) {
+  //     let email = user ? user?.email : login_data?.user?.email;
+  //     dispatch(searchActions.getFav(email));
+  //   }
+  // }, [login_data, dispatch]);
+
+  useEffect(() => {
+    if (location.state?.logout) {
+      handleClear();
+    }
+  }, [location.state]);
+
+  useEffect(() => {
+    if (location.state?.artistId) {
+      setSelectedArtist(location.state.artistId);
+      dispatch(searchActions.getArtistDetails(location.state.artistId));
+      setArtistName(""); // Clear search bar
+      setSearchPerformed(false); // Ensure no previous search results are displayed
+      dispatch({ type: "CLEAR_SEARCH_RESULTS" });
+    }
+  }, [location.state, dispatch]);
+
+  return (
+    <>
+      <div className="d-flex justify-content-center align-items-center vh-10">
+        <InputGroup
+          className="mb-2 py-4 rounded-pill w-80"
+          style={{ maxWidth: "80%" }}
+        >
+          <Form.Control
+            name="artistName"
+            placeholder="Please enter an artist name."
+            value={artistName}
+            onChange={(e) => setArtistName(e.target.value)}
+            onKeyDown={handleKeyPress}
+          />
+          <ButtonGroup>
+            <Button
+              type="submit"
+              className="custom-btn"
+              disabled={search_loading}
+              onClick={handleSearch}
+            >
+              {search_loading ? (
+                <>
+                  Search{" "}
+                  <Spinner
+                    as="span"
+                    animation="border"
+                    size="sm"
+                    role="status"
+                    aria-hidden="true"
+                  />
+                </>
+              ) : (
+                "Search"
+              )}
+            </Button>
+            <Button variant="secondary" onClick={handleClear}>
+              Clear
+            </Button>
+          </ButtonGroup>
+        </InputGroup>
+      </div>
+
+      {/* Search Results */}
+      <Container>
+        {searchPerformed && search_data.length === 0 && !search_loading ? (
+          <Alert key="danger" variant="danger">
+            No results.
+          </Alert>
+        ) : (
+          <Row className="d-flex overflow-auto">
+            {search_data &&
+              search_data.map((artist: any) => {
+                isStarred = !!fav_data?.[artist.id];
+                return (
+                  <Col
+                    key={artist.id}
+                    className="d-flex justify-content-center"
+                  >
+                    <Card
+                      className={`custom-card ${
+                        selectedArtist === artist.id ? "selected" : ""
+                      }`}
+                      onClick={() => {
+                        handleArtistClick(artist.id);
+                      }}
+                    >
+                      {login_data ||
+                        (Object.keys(user).length > 0 && (
+                          <div
+                            className="star-icon-wrapper"
+                            onClick={(e) => {
+                              e.stopPropagation();
+                              handleStarClick(artist);
+                            }}
+                          >
+                            <FontAwesomeIcon
+                              icon={isStarred ? solidStar : regularStar}
+                              className="star-icon"
+                            />
+                          </div>
+                        ))}
+                      <Card.Img
+                        variant="top"
+                        src={artist.thumbnail || "./assets/artsy_logo.svg"}
+                        alt={artist.title}
+                      />
+                      <Card.Body className="custom-card-body text-white">
+                        <Card.Text>{artist.title}</Card.Text>
+                      </Card.Body>
+                    </Card>
+                  </Col>
+                );
+              })}
+          </Row>
+        )}
+        {/* Artist Details (Displayed Below Results) */}
+        {selectedArtist && (
+          <ArtistTabs
+            artistId={selectedArtist}
+            activeTab={activeTab}
+            setActiveTab={handleTabChange}
+            user={user}
+          />
+        )}
+        {/* Similar Artist */}
+        {selectedArtist && (
+          <SimilarArtist
+            similar_artists={similar_artists_data}
+            activeTab={activeTab}
+            setActiveTab={handleTabChange}
+            user={user}
+          />
+        )}
+      </Container>
+    </>
+  );
+};
+
+export default Search;

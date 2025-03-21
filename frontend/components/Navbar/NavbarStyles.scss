@@ -1,0 +1,27 @@
+$bg: #eeeff2; // background color
+$button_bg: #23589f; // button background color
+
+.navbar {
+    background-color: $bg !important;
+}
+
+.nav-item {
+    padding: 8px 16px;
+    border-radius: 5px;
+    transition: background-color 0.3s ease-in-out;
+    text-align: center;
+    text-decoration: none !important;
+    color: black !important;
+}
+
+/* Box effect on hover */
+.nav-item:hover {
+    background-color: #23589f !important;
+    color: white !important;
+}
+
+/* Box effect when clicked (active state) */
+.active-link {
+    background-color: #23589f !important;
+    color: white !important;
+}

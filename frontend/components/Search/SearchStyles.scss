@@ -1,0 +1,132 @@
+/* Individual Card Styling */
+.custom-card {
+  background-color: #205375;
+  width: 200px; /* Fixed width */
+  transition: transform 0.3s ease-in-out;
+  scroll-snap-align: start; /* Ensures the card aligns when scrolling */
+  margin-right: -15px;
+  position: relative;
+
+  &:hover,
+  &.selected {
+    background-color: #307eb1;
+  }
+}
+
+/* Prevents the cards from shrinking when the window is resized */
+.d-flex {
+  flex-wrap: nowrap;
+}
+
+.custom-card-body {
+  height: 50px;
+  overflow: hidden;
+}
+
+/* Optional: Scrollbar Styling */
+.overflow-auto {
+  overflow-x: auto; /* Horizontal scroll if needed */
+  -webkit-overflow-scrolling: touch;
+}
+
+.star-icon-wrapper {
+  background-color: #205375; // Apply the background color
+  border-radius: 50%;
+  position: absolute;
+  width: 40px; // Adjust size as needed
+  height: 40px;
+  top: 10px;
+  right: 10px;
+  z-index: 10;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  cursor: pointer;
+
+  &:hover {
+    background-color: #307eb1; // Slightly darker shade on hover
+  }
+}
+
+.star-icon {
+  color: white;
+  font-size: 20px;
+}
+
+.nav-pills .nav-link {
+  color: #205375; // Default text color
+}
+
+.nav-pills .nav-link.active {
+  background-color: #307eb1 !important; // Selected tab background color
+  color: white !important; // Ensure text is visible
+}
+
+.star-icon-artist-details {
+  color: black;
+  font-size: 20px;
+}
+
+
+
+// .custom-card-similar {
+//   background-color: #205375;
+//   width: 200px; /* Fixed width */
+//   transition: transform 0.3s ease-in-out;
+//   scroll-snap-align: start; /* Ensures the card aligns when scrolling */
+//   margin-right: -15px;
+//   position: relative;
+
+//   &:hover,
+//   &.selected {
+//     background-color: #307eb1;
+//   }
+// }
+
+// .custom-card-similar-body {
+//   height: 50px;
+//   overflow: hidden;
+// }
+
+.fixed-img {
+  height: 140px; /* Fixed height for the image */
+  object-fit: cover; /* Ensure image covers the card without distortion */
+  width: 100%; /* Ensure image spans full card width */
+}
+
+
+.artist-name {
+  font-size: 14px; /* Adjust font size */
+  font-weight: 500;
+  color: white;
+  text-overflow: ellipsis;
+  overflow: hidden;
+  white-space: nowrap; /* Prevent text wrapping */
+  margin: 0; /* Remove default margin */
+}
+
+.d-flex-similar {
+  flex-wrap: nowrap;
+}
+
+
+.custom-card-similar {
+  background-color: #205375;
+  transition: transform 0.3s ease-in-out;
+  scroll-snap-align: start;
+  position: relative;
+
+  &:hover,
+  &.selected {
+    background-color: #307eb1;
+  }
+}
+
+.custom-card-similar-body {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  height: 50px; /* Fixed height for the body to ensure it's compact */
+  padding: 5px; /* Added padding to prevent text from touching edges */
+  text-align: center; /* Ensure text is centered */
+}
