@@ -1,6 +1,6 @@
 import { Request, Response } from "express";
-import { APIResponse } from "../utils/APIResponse";
-import { asyncHandler } from "../utils/asyncHandler";
+import { APIResponse } from "../utils/APIResponse.js";
+import { asyncHandler } from "../utils/asyncHandler.js";
 
 const healthCheck = asyncHandler(
   async (req: Request, res: Response): Promise<void> => {

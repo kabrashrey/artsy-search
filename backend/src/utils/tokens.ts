@@ -1,5 +1,5 @@
-import { Users } from "../models/users.models";
-import { APIError } from "../utils/APIError";
+import { Users } from "../models/users.models.js";
+import { APIError } from "../utils/APIError.js";
 
 export const generateAccessAndRefreshToken = async (email: any) => {
   try {

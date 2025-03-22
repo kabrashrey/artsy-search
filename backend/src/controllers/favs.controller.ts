@@ -1,10 +1,10 @@
 import { Request, Response } from "express";
 import moment from "moment-timezone";
 
-import { asyncHandler } from "../utils/asyncHandler";
-import { APIError } from "../utils/APIError";
-import { APIResponse } from "../utils/APIResponse";
-import { Favourites } from "../models/favorites.models";
+import { asyncHandler } from "../utils/asyncHandler.js";
+import { APIError } from "../utils/APIError.js";
+import { APIResponse } from "../utils/APIResponse.js";
+import { Favourites } from "../models/favorites.models.js";
 
 const getFavs = asyncHandler(
   async (req: Request, res: Response): Promise<void> => {

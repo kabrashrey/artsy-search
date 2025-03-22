@@ -1,28 +1,26 @@
-import dotenv from "dotenv";
 import { Request, Response } from "express";
 import axios, { AxiosError, AxiosResponse } from "axios";
 
-import { asyncHandler } from "../utils/asyncHandler";
-import { APIError } from "../utils/APIError";
-import { APIResponse } from "../utils/APIResponse";
-import { Tokens } from "../models/token.models";
+import { asyncHandler } from "../utils/asyncHandler.js";
+import { APIError } from "../utils/APIError.js";
+import { APIResponse } from "../utils/APIResponse.js";
+import { Tokens } from "../models/token.models.js";
+import { constants } from "../constants.js";
 
-dotenv.config({
-  path: "./.env",
-});
 
 const getToken = async (): Promise<any> => {
   try {
+    console.log("Fetching token from database.");
     const existingToken = await Tokens.findOne().sort({ expires_at: -1 });
 
     if (existingToken && new Date(existingToken.expires_at) > new Date()) {
       console.log("Returning existing valid token.");
       return existingToken.token;
     }
-    const url = process.env.AUTH;
+    const url = constants.AUTH;
     const data = {
-      client_id: process.env.CLIENT_ID,
-      client_secret: process.env.CLIENT_SECRET,
+      client_id: constants.CLIENT_ID,
+      client_secret: constants.CLIENT_SECRET,
     };
 
     if (!url || !data.client_id || !data.client_secret) {

@@ -1,5 +1,5 @@
 import { Router } from "express";
-import { getFavs, addFav, delFav } from "../controllers/favs.controller";
+import { getFavs, addFav, delFav } from "../controllers/favs.controller.js";
 
 const router = Router();
 

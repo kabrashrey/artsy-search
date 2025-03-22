@@ -1,5 +1,5 @@
 import { Router } from "express";
-import { fetchToken } from "../controllers/auth.controller";
+import { fetchToken } from "../controllers/auth.controller.js";
 
 const router = Router();
 

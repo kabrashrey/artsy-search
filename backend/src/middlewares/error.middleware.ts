@@ -1,13 +1,13 @@
 import mongoose from "mongoose";
-import { APIError } from "../utils/APIError";
 import { Request, Response, NextFunction } from "express";
+import { APIError } from "../utils/APIError.js";
 
 const errorHandler = (
   err: any,
   req: Request,
   res: Response,
   next: NextFunction
-) => {
+): void => {
   let error = err;
 
   if (!(error instanceof APIError)) {
@@ -21,7 +21,7 @@ const errorHandler = (
     message: error.message,
     ...(process.env.NODE_ENV === "development" ? { stack: error.stack } : {}),
   };
-  return res.status(error.statusCode).json(response);
+  res.status(error.statusCode).json(response);
 };
 
 export { errorHandler };

@@ -1,15 +1,11 @@
-import dotenv from "dotenv";
 import { Request, Response } from "express";
 import axios, { AxiosError, AxiosResponse } from "axios";
 
-import { asyncHandler } from "../utils/asyncHandler";
-import { APIError } from "../utils/APIError";
-import { APIResponse } from "../utils/APIResponse";
-import { getToken } from "./auth.controller";
-
-dotenv.config({
-  path: "./.env",
-});
+import { asyncHandler } from "../utils/asyncHandler.js";
+import { APIError } from "../utils/APIError.js";
+import { APIResponse } from "../utils/APIResponse.js";
+import { getToken } from "./auth.controller.js";
+import { constants } from "../constants.js";
 
 const getArtistDetails = asyncHandler(
   async (req: Request, res: Response): Promise<any> => {
@@ -25,7 +21,7 @@ const getArtistDetails = asyncHandler(
       const token = await getToken();
       console.log("Token Response:", token);
 
-      const url = process.env.SEARCH;
+      const url = constants.SEARCH;
       if (!url) {
         throw new APIError(
           500,

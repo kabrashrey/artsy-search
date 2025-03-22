@@ -3,21 +3,22 @@ import cors from "cors";
 import cookieParser from "cookie-parser";
 
 // import routes
-import healthCheckRouter from "./routes/health_check.routes";
-import usersRouter from "./routes/users.routes";
-import authRouter from "./routes/auth.routes";
-import searchRouter from "./routes/search.routes";
-import artistsRouter from "./routes/artists.routes";
-import artworksRouter from "./routes/artworks.routes";
-import genesRouter from "./routes/genes.routes";
-import favsRouter from "./routes/favs.routes";
-import { errorHandler } from "./middlewares/error.middleware";
+import healthCheckRouter from "./routes/health_check.routes.js";
+import usersRouter from "./routes/users.routes.js";
+import authRouter from "./routes/auth.routes.js";
+import searchRouter from "./routes/search.routes.js";
+import artistsRouter from "./routes/artists.routes.js";
+import artworksRouter from "./routes/artworks.routes.js";
+import genesRouter from "./routes/genes.routes.js";
+import favsRouter from "./routes/favs.routes.js";
+import { errorHandler } from "./middlewares/error.middleware.js";
+import { constants } from "./constants.js";
 
 const app = express();
 
 app.use(
   cors({
-    origin: process.env.CORS_ORIGIN,
+    origin: constants.CORS_ORIGIN,
     credentials: true,
   })
 );

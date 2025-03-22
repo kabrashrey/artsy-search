@@ -1,5 +1,5 @@
 import { Router } from "express";
-import { getGenes } from "../controllers/genes.controller";
+import { getGenes } from "../controllers/genes.controller.js";
 
 const router = Router();
 

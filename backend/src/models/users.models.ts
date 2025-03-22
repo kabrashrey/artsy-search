@@ -1,11 +1,7 @@
 import mongoose, { Schema, Document, Model, CallbackError } from "mongoose";
 import bcrypt from "bcrypt";
 import jwt, { SignOptions } from "jsonwebtoken";
-import dotenv from "dotenv";
-
-dotenv.config({
-  path: "./.env",
-});
+import { constants } from "../constants.js";
 
 type IUserMethods = {
   isPasswordCorrect(password: string): Promise<boolean>;
@@ -52,8 +48,8 @@ userSchema.methods.isPasswordCorrect = async function (
 };
 
 userSchema.methods.generateAccessToken = function (): string {
-  const secret = process.env.ACCESS_TOKEN_SECRET;
-  const expiry = process.env.ACCESS_TOKEN_EXPIRY as SignOptions["expiresIn"];
+  const secret = constants.ACCESS_TOKEN_SECRET;
+  const expiry = constants.ACCESS_TOKEN_EXPIRY as SignOptions["expiresIn"];
 
   if (!secret || !expiry) {
     throw new Error(
@@ -73,8 +69,8 @@ userSchema.methods.generateAccessToken = function (): string {
 };
 
 userSchema.methods.generateRefreshToken = function (): string {
-  const secret = process.env.REFRESH_TOKEN_SECRET;
-  const expiry = process.env.REFRESH_TOKEN_EXPIRY as SignOptions["expiresIn"];
+  const secret = constants.REFRESH_TOKEN_SECRET;
+  const expiry = constants.REFRESH_TOKEN_EXPIRY as SignOptions["expiresIn"];
 
   if (!secret || !expiry) {
     throw new Error(

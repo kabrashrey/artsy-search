@@ -1,11 +1,11 @@
 import { Request, Response } from "express";
-import { asyncHandler } from "../utils/asyncHandler";
-import { APIError } from "../utils/APIError";
-import { APIResponse } from "../utils/APIResponse";
 import { AxiosError } from "axios";
-import { Users } from "../models/users.models";
-import getGravatarUrl from "../utils/generate_gravatar";
-import { generateAccessAndRefreshToken } from "../utils/tokens";
+import { asyncHandler } from "../utils/asyncHandler.js";
+import { APIError } from "../utils/APIError.js";
+import { APIResponse } from "../utils/APIResponse.js";
+import { Users } from "../models/users.models.js";
+import getGravatarUrl from "../utils/generate_gravatar.js";
+import { generateAccessAndRefreshToken } from "../utils/tokens.js";
 
 const registerUsers = asyncHandler(
   async (req: Request, res: Response): Promise<void> => {
@@ -99,6 +99,7 @@ const loginUser = asyncHandler(
 
       // Validate Password
       const isPasswordValid = await user.isPasswordCorrect(password);
+      console.log("isPasswordValid", isPasswordValid);
       if (!isPasswordValid) {
         throw new APIError(401, "Password or email is incorrect.");
       }

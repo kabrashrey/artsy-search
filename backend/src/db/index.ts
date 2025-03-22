@@ -1,14 +1,9 @@
 import mongoose from "mongoose";
-import { DB_NAME } from "../constants";
+import { constants } from "../constants.js";
 
 const connectToDB = async (): Promise<void> => {
   try {
-    if (!process.env.DB_URL) {
-      throw new Error("DB_URL is not defined in environment variables");
-    }
-
-    const mongo_db_url = `${process.env.DB_URL}/${DB_NAME}`;
-    const connectionInstance = await mongoose.connect(mongo_db_url);
+    const connectionInstance = await mongoose.connect(constants.DB_URL);
 
     console.log(`Connected to MongoDB DB_HOST: 
         ${connectionInstance.connection.host}`);

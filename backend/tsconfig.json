@@ -5,16 +5,15 @@
     "moduleResolution": "node",
     "esModuleInterop": true,
     "allowSyntheticDefaultImports": true,
-    // "outDir": "./dist", // convert ts file to js and store in dist folder
+    "outDir": "./dist",
     "strict": true,
     "skipLibCheck": true,
     "resolveJsonModule": true,
     "forceConsistentCasingInFileNames": true,
-    "noEmit": false,
     "isolatedModules": true,
-    "baseUrl": ".",
-    "paths": {
-      "*": ["node_modules/*"]
-    }
-  }
+    "baseUrl": "."
+},
+  "include": ["src/**/*.ts", "package.json"],
+  "exclude": ["node_modules"]
+
 }
