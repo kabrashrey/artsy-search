@@ -1,15 +1,7 @@
 import React, { useState, useEffect } from "react";
 import { useNavigate } from "react-router-dom";
 import { useSelector, useDispatch } from "react-redux";
-import {
-  Container,
-  Card,
-  Button,
-  Alert,
-  Row,
-  Col,
-  Spinner,
-} from "react-bootstrap";
+import { Container, Card, Alert, Row, Col, Spinner } from "react-bootstrap";
 import { getArtistDetails, getRemoveFav, getFav } from "../Search/store/Action";
 import "./FavoritesStyles.scss";
 
@@ -17,19 +9,21 @@ const Favorites = () => {
   const dispatch = useDispatch();
   const navigate = useNavigate();
 
-  const { login_data } = useSelector((state: any) => state.login);
+  const user = JSON.parse(localStorage.getItem("user") || "{}");
 
   const { fav_data, fav_error, fav_loading } = useSelector(
     (state: any) => state.get_fav
   );
+  const { removeFav_data } = useSelector((state: any) => state.remove_fav);
   const [localFavorites, setLocalFavorites] = useState(fav_data || []);
+  const [timeAgo, setTimeAgo] = useState<{ [key: string]: string }>({});
 
   // Load favorites only on full reload
   useEffect(() => {
-    if (login_data && !localFavorites.length) {
-      dispatch(getFav(login_data?.data?.user?.email));
+    if (Object.keys(user).length > 0 && !localFavorites.length) {
+      dispatch(getFav(user?.email));
     }
-  }, [dispatch, login_data, localFavorites.length]);
+  }, [dispatch, localFavorites.length]);
 
   // Sync local state when fav_data changes
   useEffect(() => {
@@ -38,19 +32,24 @@ const Favorites = () => {
     }
   }, [fav_data]);
 
-  const handleRemove = (artistId: string) => {
-    dispatch(getRemoveFav(artistId));
-    setLocalFavorites((prev: any) =>
-      prev.filter((artist: any) => artist.id !== artistId)
-    );
-  };
+  useEffect(() => {
+    dispatch(getFav(user?.email));
+  }, [removeFav_data]);
 
-  const handleCardClick = (artist: any) => {
-    dispatch(getArtistDetails(artist));
-    navigate("/", {
-      state: { artistId: artist },
-    });
-  };
+  useEffect(() => {
+    const interval = setInterval(() => {
+      setTimeAgo((prevTimeAgo) => {
+        const updatedTimeAgo = { ...prevTimeAgo };
+        localFavorites.forEach((artist: any) => {
+          updatedTimeAgo[artist.fav_id] = getTimeAgo(artist.added_at);
+        });
+        return updatedTimeAgo;
+      });
+    }, 1000); // update every second
+
+    // Clean up the interval on component unmount
+    return () => clearInterval(interval);
+  }, [localFavorites]);
 
   const getTimeAgo = (timestamp: string) => {
     const diff = Math.floor(
@@ -60,6 +59,21 @@ const Favorites = () => {
     if (diff < 3600) return `${Math.floor(diff / 60)} minutes ago`;
     if (diff < 86400) return `${Math.floor(diff / 3600)} hours ago`;
     return `${Math.floor(diff / 86400)} days ago`;
+  };
+
+  const handleRemove = (artistId: string) => {
+    dispatch(getRemoveFav({ fav_id: artistId, email: user?.email }));
+    setLocalFavorites((prev: any) =>
+      prev.filter((artist: any) => artist.id !== artistId)
+    );
+    dispatch(getFav(user?.email));
+  };
+
+  const handleCardClick = (artist: any) => {
+    dispatch(getArtistDetails(artist));
+    navigate("/", {
+      state: { artistId: artist },
+    });
   };
 
   return (
@@ -88,18 +102,6 @@ const Favorites = () => {
                     bottom: 0,
                   }}
                 />
-                {/* <div
-                  className="overlay"
-                  style={{
-                    position: "absolute",
-                    top: 0,
-                    left: 0,
-                    right: 0,
-                    bottom: 0,
-                    background: "rgba(0, 0, 0, 0.4)",
-                    zIndex: 0,
-                  }}
-                /> */}
 
                 <Card.Body
                   className="favorite-card-body"
@@ -115,7 +117,9 @@ const Favorites = () => {
                     <br />
                     {artist.nationality}
                   </p>
-                  <small>{getTimeAgo(artist.added_at)}</small>
+                  <small>
+                    {timeAgo[artist.fav_id] || getTimeAgo(artist.added_at)}
+                  </small>
                   {/* Remove Link (Bottom-Right) */}
                   <div
                     style={{
