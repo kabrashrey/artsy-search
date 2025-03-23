@@ -8,6 +8,7 @@ import { Favourites } from "../models/favorites.models.js";
 
 const getFavs = asyncHandler(
   async (req: Request, res: Response): Promise<void> => {
+    console.log("Get_fav", req.query);
     const { email } = req.query;
 
     // VALIDATION
@@ -34,6 +35,7 @@ const getFavs = asyncHandler(
 
 const addFav = asyncHandler(
   async (req: Request, res: Response): Promise<void> => {
+    console.log("Add_fav", req.body);
     const { fav_id, email, name, birthyear, deathyear, nationality } = req.body;
 
     // VALIDATION
@@ -46,7 +48,7 @@ const addFav = asyncHandler(
       throw new APIError(409, `${name} already in ${email} favourites.`);
     }
 
-    let bg_img = req.body.bg_img || null;
+    let bg_img = req?.body?.bg_img || null;
 
     const newFav = await new Favourites({
       fav_id,
@@ -77,6 +79,7 @@ const addFav = asyncHandler(
 
 const delFav = asyncHandler(
   async (req: Request, res: Response): Promise<void> => {
+    console.log("Del_fav", req.body);
     const { fav_id, email } = req.body;
 
     // VALIDATION
