@@ -1,7 +1,7 @@
 import { app } from "./app.js";
 import connectToDB from "./db/index.js";
 
-const PORT: number = 8000;
+const PORT: number = 8080;
 
 connectToDB()
   .then(() => {

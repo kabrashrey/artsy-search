@@ -1,4 +1,4 @@
-const localhost = "http://127.0.0.1:8000";
+const localhost = "https://artsy-shrey-3.wl.r.appspot.com";
 
 export const apiUrls = {
   login: localhost + "/api/users/login",

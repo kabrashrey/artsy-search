@@ -9,7 +9,7 @@ import { constants } from "../constants.js";
 
 const getArtists = asyncHandler(
   async (req: Request, res: Response): Promise<any> => {
-    console.log("Artists query:", req.query);
+    console.log("Artists Details query:", req.query);
     const { id } = req.query;
 
     if (!id) {
@@ -45,7 +45,8 @@ const getArtists = asyncHandler(
 
       const result = artsyResponse.data;
       const finalResult = {
-        name: result.name,
+        id: id,
+        title: result.name,
         birthyear: result.birthday,
         nationality: result.nationality,
         biography: result.biography,
