@@ -18,6 +18,31 @@ const Favorites = () => {
   const [localFavorites, setLocalFavorites] = useState(fav_data || []);
   const [timeAgo, setTimeAgo] = useState<{ [key: string]: string }>({});
 
+  const getTimeAgo = (timestamp: string) => {
+    const diff = Math.floor(
+      (new Date().getTime() - new Date(timestamp).getTime()) / 1000
+    );
+    if (diff < 60) return `${diff} seconds ago`;
+    if (diff < 3600) return `${Math.floor(diff / 60)} minutes ago`;
+    if (diff < 86400) return `${Math.floor(diff / 3600)} hours ago`;
+    return `${Math.floor(diff / 86400)} days ago`;
+  };
+
+  const handleRemove = (artistId: string) => {
+    dispatch(getRemoveFav({ fav_id: artistId, email: user?.email }));
+    setLocalFavorites((prev: any) =>
+      prev.filter((artist: any) => artist.id !== artistId)
+    );
+    dispatch(getFav(user?.email));
+  };
+
+  const handleCardClick = (artist: any) => {
+    dispatch(getArtistDetails(artist));
+    navigate("/", {
+      state: { artistId: artist },
+    });
+  };
+
   // Load favorites only on full reload
   useEffect(() => {
     if (Object.keys(user).length > 0 && !localFavorites.length) {
@@ -51,31 +76,6 @@ const Favorites = () => {
     return () => clearInterval(interval);
   }, [localFavorites]);
 
-  const getTimeAgo = (timestamp: string) => {
-    const diff = Math.floor(
-      (new Date().getTime() - new Date(timestamp).getTime()) / 1000
-    );
-    if (diff < 60) return `${diff} seconds ago`;
-    if (diff < 3600) return `${Math.floor(diff / 60)} minutes ago`;
-    if (diff < 86400) return `${Math.floor(diff / 3600)} hours ago`;
-    return `${Math.floor(diff / 86400)} days ago`;
-  };
-
-  const handleRemove = (artistId: string) => {
-    dispatch(getRemoveFav({ fav_id: artistId, email: user?.email }));
-    setLocalFavorites((prev: any) =>
-      prev.filter((artist: any) => artist.id !== artistId)
-    );
-    dispatch(getFav(user?.email));
-  };
-
-  const handleCardClick = (artist: any) => {
-    dispatch(getArtistDetails(artist));
-    navigate("/", {
-      state: { artistId: artist },
-    });
-  };
-
   return (
     <Container className="py-4">
       {fav_loading && !localFavorites.length ? (
@@ -93,7 +93,9 @@ const Favorites = () => {
                 <div
                   className="background-img"
                   style={{
-                    background: `url(${artist.bg_img}) center/cover no-repeat`,
+                    background: `url(${
+                      artist.bg_img || "./assets/artsy_logo.svg"
+                    }) center/cover no-repeat`,
                     filter: "blur(8px)",
                     position: "absolute",
                     top: 0,

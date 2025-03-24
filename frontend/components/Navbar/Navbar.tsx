@@ -14,16 +14,12 @@ const Header = () => {
   const navigate = useNavigate();
 
   const [activeLink, setActiveLink] = useState<string | null>(null);
-  useEffect(() => {
-    const currentPath = location.pathname;
-    setActiveLink(currentPath);
-  }, [location.pathname]);
 
   const user = JSON.parse(localStorage.getItem("user") || "{}");
   // let user = user_data;
 
   const [logout, setLogout] = useState(false);
-  const {logout_data} = useSelector((state: any) => state.logout);
+  const { logout_data } = useSelector((state: any) => state.logout);
   const { del_account_data } = useSelector(
     (state: any) => state.delete_account
   );
@@ -37,7 +33,7 @@ const Header = () => {
   };
 
   const handleDeleteAccount = () => {
-    dispatch(registerActions.getDeleteAccountRequest({"email":user?.email}));
+    dispatch(registerActions.getDeleteAccountRequest({ email: user?.email }));
     dispatch(loginActions.clearLoginData());
     dispatch(searchActions.clearSearchResults());
     setLogout(true);
@@ -52,6 +48,11 @@ const Header = () => {
       navigate("/", { state: { logout: logout } });
     }
   }, [logout_data || del_account_data]);
+
+  useEffect(() => {
+    const currentPath = location.pathname;
+    setActiveLink(currentPath);
+  }, [location.pathname]);
 
   return (
     <>
