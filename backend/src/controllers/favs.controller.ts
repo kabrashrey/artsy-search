@@ -8,6 +8,7 @@ import { APIResponse } from "../utils/APIResponse.js";
 import { Favourites } from "../models/favorites.models.js";
 import { constants } from "../constants.js";
 import { getToken } from "./auth.controller.js";
+import { Tokens } from "../models/token.models.js";
 
 const getFavs = asyncHandler(
   async (req: Request, res: Response): Promise<void> => {
@@ -51,22 +52,23 @@ const addFav = asyncHandler(
       throw new APIError(409, `${fav_id} already in ${email} favourites.`);
     }
 
-    const token = await getToken();
-    console.log("Token Response:", token);
-    let url = `${constants.ARTISTS}/${fav_id}`;
-    const headers = { "X-XAPP-Token": token };
-    console.log("Headers:", headers);
-    console.log("URL:", url);
-    const artsyResponse: AxiosResponse = await axios.get(url, {
-      headers,
-    });
+    const token = (await Tokens.findOne().sort({ expires_at: -1 }))?.token;
+    if (!token) throw new APIError(500, "No valid token found");
 
-    const result = artsyResponse.data;
-    const name = result.name;
-    const birthyear = result.birthday;
-    const deathyear = result.deathday;
-    const nationality = result.nationality;
-    const bg_img = result._links?.thumbnail?.href || null;
+    const artsyResponse: AxiosResponse = await axios.get(
+      `${constants.ARTISTS}/${fav_id}`,
+      {
+        headers: { "X-XAPP-Token": token },
+      }
+    );
+
+    const {
+      name,
+      birthday: birthyear,
+      deathday: deathyear,
+      nationality,
+    } = artsyResponse.data;
+    const bg_img = artsyResponse.data._links?.thumbnail?.href || null;
 
     const newFav = await new Favourites({
       fav_id,
@@ -78,19 +80,19 @@ const addFav = asyncHandler(
       bg_img,
     }).save();
 
-    const added_fav = await Favourites.findById(newFav._id);
+    // const added_fav = await Favourites.findById(newFav._id);
 
-    if (!added_fav) {
-      throw new APIError(
-        500,
-        "Something went wrong while adding to favourites"
-      );
-    }
+    // if (!added_fav) {
+    //   throw new APIError(
+    //     500,
+    //     "Something went wrong while adding to favourites"
+    //   );
+    // }
 
     res
       .status(201)
       .json(
-        new APIResponse(201, newFav, `${name} added from ${email} favourites`)
+        new APIResponse(201, newFav, `${fav_id} added to ${email} favourites`)
       );
   }
 );

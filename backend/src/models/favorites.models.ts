@@ -11,7 +11,6 @@ const favSchema = new Schema({
   },
   name: {
     type: String,
-    required: true,
   },
   birthyear: {
     type: String,
