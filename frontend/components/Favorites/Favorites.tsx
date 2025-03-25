@@ -5,10 +5,12 @@ import { Container, Card, Alert, Row, Col, Spinner } from "react-bootstrap";
 
 import { getArtistDetails, getRemoveFav, getFav } from "../Search/store/Action";
 import { searchActions } from "../Search/store/Action";
+import { useNotification } from "../Notification/NotificationContext";
 
 const Favorites = () => {
   const dispatch = useDispatch();
   const navigate = useNavigate();
+  const { addNotification } = useNotification();
 
   const user = JSON.parse(localStorage.getItem("user") || "{}");
 
@@ -33,6 +35,7 @@ const Favorites = () => {
       prev.filter((artist: any) => artist.fav_id !== artistId)
     );
     dispatch(getRemoveFav({ fav_id: artistId, email: user?.email }));
+    addNotification("Removed from favorites", "danger");
   };
 
   const handleCardClick = (artist: any) => {
