@@ -6,12 +6,14 @@ import { Navbar, Nav, Container, Dropdown } from "react-bootstrap";
 import { loginActions } from "../Login/store/Action";
 import { registerActions } from "../Register/store/Action";
 import { searchActions } from "../Search/store/Action";
+import { useNotification } from "../Notification/NotificationContext";
 import "./NavbarStyles.scss";
 
 const Header = () => {
   const dispatch = useDispatch();
   const location = useLocation();
   const navigate = useNavigate();
+  const { addNotification } = useNotification();
 
   const [activeLink, setActiveLink] = useState<string | null>(null);
 
@@ -29,6 +31,7 @@ const Header = () => {
     dispatch(loginActions.clearLoginData());
     dispatch(searchActions.clearSearchResults());
     setLogout(true);
+    addNotification("Logged out", "success");
     navigate("/", { state: { logout: logout } });
   };
 
@@ -37,6 +40,7 @@ const Header = () => {
     dispatch(loginActions.clearLoginData());
     dispatch(searchActions.clearSearchResults());
     setLogout(true);
+    addNotification("Account deleted", "danger");
     navigate("/", { state: { logout: logout } });
   };
 

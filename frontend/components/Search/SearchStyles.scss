@@ -48,11 +48,6 @@
   }
 }
 
-.star-icon {
-  color: white;
-  font-size: 20px;
-}
-
 .nav-pills .nav-link {
   color: #205375; // Default text color
 }
@@ -61,32 +56,6 @@
   background-color: #307eb1 !important; // Selected tab background color
   color: white !important; // Ensure text is visible
 }
-
-.star-icon-artist-details {
-  color: black;
-  font-size: 20px;
-}
-
-
-
-// .custom-card-similar {
-//   background-color: #205375;
-//   width: 200px; /* Fixed width */
-//   transition: transform 0.3s ease-in-out;
-//   scroll-snap-align: start; /* Ensures the card aligns when scrolling */
-//   margin-right: -15px;
-//   position: relative;
-
-//   &:hover,
-//   &.selected {
-//     background-color: #307eb1;
-//   }
-// }
-
-// .custom-card-similar-body {
-//   height: 50px;
-//   overflow: hidden;
-// }
 
 .fixed-img {
   height: 140px; /* Fixed height for the image */

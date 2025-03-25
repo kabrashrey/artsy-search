@@ -2,6 +2,7 @@ import React, { useState, useEffect } from "react";
 import { useNavigate } from "react-router-dom";
 import { useSelector, useDispatch } from "react-redux";
 import { Container, Card, Alert, Row, Col, Spinner } from "react-bootstrap";
+
 import { getArtistDetails, getRemoveFav, getFav } from "../Search/store/Action";
 import { searchActions } from "../Search/store/Action";
 
@@ -14,7 +15,8 @@ const Favorites = () => {
   const { fav_data, fav_loading } = useSelector((state: any) => state.get_fav);
   const { removeFav_data } = useSelector((state: any) => state.remove_fav);
   const [localFavorites, setLocalFavorites] = useState(fav_data || []);
-  const [timeAgo, setTimeAgo] = useState<{ [key: string]: string }>({});
+  // const [timeAgo, setTimeAgo] = useState<{ [key: string]: string }>({});
+  const [currentTime, setCurrentTime] = useState(Date.now());
 
   const getTimeAgo = (timestamp: string) => {
     const diff = Math.floor(
@@ -61,19 +63,26 @@ const Favorites = () => {
     }
   }, [removeFav_data]);
 
+  // useEffect(() => {
+  //   const interval = setInterval(() => {
+  //     setTimeAgo((prevTimeAgo) => {
+  //       const updatedTimeAgo = { ...prevTimeAgo };
+  //       localFavorites?.forEach((artist: any) => {
+  //         updatedTimeAgo[artist.fav_id] = getTimeAgo(artist.added_at);
+  //       });
+  //       return updatedTimeAgo;
+  //     });
+  //   }, 1000);
+  //   // Clean up the interval on component unmount
+  //   return () => clearInterval(interval);
+  // }, [localFavorites]);
+
   useEffect(() => {
     const interval = setInterval(() => {
-      setTimeAgo((prevTimeAgo) => {
-        const updatedTimeAgo = { ...prevTimeAgo };
-        localFavorites.forEach((artist: any) => {
-          updatedTimeAgo[artist.fav_id] = getTimeAgo(artist.added_at);
-        });
-        return updatedTimeAgo;
-      });
+      setCurrentTime(Date.now());
     }, 1000);
-    // Clean up the interval on component unmount
     return () => clearInterval(interval);
-  }, [localFavorites]);
+  }, []);
 
   return (
     <Container className="py-4">
@@ -118,9 +127,7 @@ const Favorites = () => {
                     <br />
                     {artist.nationality}
                   </p>
-                  <small>
-                    {timeAgo[artist.fav_id] || getTimeAgo(artist.added_at)}
-                  </small>
+                  <small>{getTimeAgo(artist.added_at)}</small>
                   {/* Remove Link (Bottom-Right) */}
                   <div
                     style={{
