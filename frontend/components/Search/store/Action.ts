@@ -1,8 +1,10 @@
 export enum searchActionTypes {
+  // SEARCH
   GET_SEARCH_REQUEST = "GET_SEARCH_REQUEST",
   SET_SEARCH_REQUEST = "SET_SEARCH_REQUEST",
   SET_SEARCH_REQUEST_FAILURE = "SET_SEARCH_REQUEST_FAILURE",
   CLEAR_SEARCH_RESULTS = "CLEAR_SEARCH_RESULTS",
+  // FAVOURITES
   GET_FAV = "GET_FAV",
   SET_FAV = "SET_FAV",
   SET_FAV_ERROR = "SET_FAV_ERROR",
@@ -13,17 +15,22 @@ export enum searchActionTypes {
   GET_REMOVE_FAV = "REMOVE_FAV",
   SET_REMOVE_FAV = "SET_REMOVE_FAV",
   SET_REMOVE_FAV_ERROR = "SET_REMOVE_FAV_ERROR",
+  CLEAR_REMOVE_FAV = "CLEAR_REMOVE_FAV",
+  // ARTIST DETAILS
   GET_ARTIST_DETAILS = "GET_ARTIST_DETAILS",
   SET_ARTIST_DETAILS = "SET_ARTIST_DETAILS",
   SET_ARTIST_DETAILS_ERROR = "SET_ARTIST_DETAILS_ERROR",
   CLEAR_ARTIST_RESULTS = "CLEAR_ARTIST_RESULTS",
+  // ARTWORK
   GET_ARTWORKS = "GET_ARTWORKS",
   SET_ARTWORKS = "SET_ARTWORKS",
   SET_ARTWORKS_ERROR = "SET_ARTWORKS_ERROR",
+  // SIMILAR ARTISTS
   GET_SIMILAR_ARTISTS = "GET_SIMILAR_ARTISTS",
   SET_SIMILAR_ARTISTS = "SET_SIMILAR_ARTISTS",
   SET_SIMILAR_ARTISTS_ERROR = "SET_SIMILAR_ARTISTS_ERROR",
   CLEAR_SIMILAR_ARTISTS = "CLEAR_SIMILAR_ARTISTS",
+  // CATEGORIES
   GET_CATEGORIES = "GET_CATEGORIES",
   SET_CATEGORIES = "SET_CATEGORIES",
   SET_CATEGORIES_ERROR = "SET_CATEGORIES_ERROR",
@@ -47,6 +54,10 @@ export const setArtistError = (error: any) => ({
   payload: error,
 });
 
+export const clearSearchResults = () => ({
+  type: searchActionTypes.CLEAR_SEARCH_RESULTS,
+});
+
 // Artist Details
 export const getArtistDetails = (id: string) => ({
   type: searchActionTypes.GET_ARTIST_DETAILS,
@@ -61,6 +72,10 @@ export const setArtistDetails = (results: any) => ({
 export const setArtistDetailsError = (error: any) => ({
   type: searchActionTypes.SET_ARTIST_DETAILS_ERROR,
   payload: error,
+});
+
+export const clearArtistDetails = () => ({
+  type: searchActionTypes.CLEAR_ARTIST_RESULTS,
 });
 
 // Artworks
@@ -112,6 +127,10 @@ export const setAddFavError = (error: any) => ({
   payload: error,
 });
 
+export const clearFavData = () => ({
+  type: searchActionTypes.CLEAR_FAV_DATA,
+});
+
 // DELETE
 export const getRemoveFav = (data: any) => ({
   type: searchActionTypes.GET_REMOVE_FAV,
@@ -128,17 +147,12 @@ export const setRemoveFavError = (error: any) => ({
   payload: error,
 });
 
-export const clearFavData = () => ({
-  type: searchActionTypes.CLEAR_FAV_DATA,
+export const clearRemoveFavData = () => ({
+  type: searchActionTypes.CLEAR_REMOVE_FAV,
 });
 
-export const clearSearchResults = () => ({
-  type: searchActionTypes.CLEAR_SEARCH_RESULTS,
-});
 
-export const clearArtistDetails = () => ({
-  type: searchActionTypes.CLEAR_ARTIST_RESULTS,
-});
+// Similar Artists
 
 export const getSimilarArtists = (data: any) => ({
   type: searchActionTypes.GET_SIMILAR_ARTISTS,
@@ -159,6 +173,7 @@ export const clearSimilarArtistDetails = () => ({
   type: searchActionTypes.CLEAR_SIMILAR_ARTISTS,
 });
 
+// Categories
 export const getCategories = (data: any) => ({
   type: searchActionTypes.GET_CATEGORIES,
   payload: data,
@@ -208,4 +223,5 @@ export const searchActions = {
   setCategoriesError,
   clearCategories,
   clearFavData,
+  clearRemoveFavData,
 };

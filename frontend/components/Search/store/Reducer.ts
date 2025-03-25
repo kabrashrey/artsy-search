@@ -163,6 +163,12 @@ const removeFavReducer = (state = initialRemoveFavState, action: any) => {
         removeFav_error: action.payload,
         removeFav_data: null,
       };
+    case searchActionTypes.CLEAR_REMOVE_FAV:
+      return {
+        ...state,
+        removeFav_data: null,
+        removeFav_error: "",
+      };
     default:
       return state;
   }

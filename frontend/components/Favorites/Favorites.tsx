@@ -3,6 +3,7 @@ import { useNavigate } from "react-router-dom";
 import { useSelector, useDispatch } from "react-redux";
 import { Container, Card, Alert, Row, Col, Spinner } from "react-bootstrap";
 import { getArtistDetails, getRemoveFav, getFav } from "../Search/store/Action";
+import { searchActions } from "../Search/store/Action";
 
 const Favorites = () => {
   const dispatch = useDispatch();
@@ -26,11 +27,10 @@ const Favorites = () => {
   };
 
   const handleRemove = (artistId: string) => {
-    dispatch(getRemoveFav({ fav_id: artistId, email: user?.email }));
     setLocalFavorites((prev: any) =>
       prev.filter((artist: any) => artist.fav_id !== artistId)
     );
-    dispatch(getFav(user?.email));
+    dispatch(getRemoveFav({ fav_id: artistId, email: user?.email }));
   };
 
   const handleCardClick = (artist: any) => {
@@ -57,6 +57,7 @@ const Favorites = () => {
   useEffect(() => {
     if (removeFav_data) {
       dispatch(getFav(user?.email));
+      dispatch(searchActions.clearRemoveFavData());
     }
   }, [removeFav_data]);
 
