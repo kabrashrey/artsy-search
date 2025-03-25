@@ -3,7 +3,6 @@ import { useNavigate } from "react-router-dom";
 import { useSelector, useDispatch } from "react-redux";
 import { Container, Card, Alert, Row, Col, Spinner } from "react-bootstrap";
 import { getArtistDetails, getRemoveFav, getFav } from "../Search/store/Action";
-import "./FavoritesStyles.scss";
 
 const Favorites = () => {
   const dispatch = useDispatch();
@@ -11,9 +10,7 @@ const Favorites = () => {
 
   const user = JSON.parse(localStorage.getItem("user") || "{}");
 
-  const { fav_data, fav_error, fav_loading } = useSelector(
-    (state: any) => state.get_fav
-  );
+  const { fav_data, fav_loading } = useSelector((state: any) => state.get_fav);
   const { removeFav_data } = useSelector((state: any) => state.remove_fav);
   const [localFavorites, setLocalFavorites] = useState(fav_data || []);
   const [timeAgo, setTimeAgo] = useState<{ [key: string]: string }>({});
@@ -31,7 +28,7 @@ const Favorites = () => {
   const handleRemove = (artistId: string) => {
     dispatch(getRemoveFav({ fav_id: artistId, email: user?.email }));
     setLocalFavorites((prev: any) =>
-      prev.filter((artist: any) => artist.id !== artistId)
+      prev.filter((artist: any) => artist.fav_id !== artistId)
     );
     dispatch(getFav(user?.email));
   };
@@ -58,7 +55,9 @@ const Favorites = () => {
   }, [fav_data]);
 
   useEffect(() => {
-    dispatch(getFav(user?.email));
+    if (removeFav_data) {
+      dispatch(getFav(user?.email));
+    }
   }, [removeFav_data]);
 
   useEffect(() => {
@@ -70,8 +69,7 @@ const Favorites = () => {
         });
         return updatedTimeAgo;
       });
-    }, 1000); // update every second
-
+    }, 1000);
     // Clean up the interval on component unmount
     return () => clearInterval(interval);
   }, [localFavorites]);
