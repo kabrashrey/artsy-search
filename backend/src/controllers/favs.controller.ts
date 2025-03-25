@@ -1,10 +1,13 @@
 import { Request, Response } from "express";
 import moment from "moment-timezone";
+import axios, { AxiosResponse } from "axios";
 
 import { asyncHandler } from "../utils/asyncHandler.js";
 import { APIError } from "../utils/APIError.js";
 import { APIResponse } from "../utils/APIResponse.js";
 import { Favourites } from "../models/favorites.models.js";
+import { constants } from "../constants.js";
+import { getToken } from "./auth.controller.js";
 
 const getFavs = asyncHandler(
   async (req: Request, res: Response): Promise<void> => {
@@ -36,19 +39,34 @@ const getFavs = asyncHandler(
 const addFav = asyncHandler(
   async (req: Request, res: Response): Promise<void> => {
     console.log("Add_fav", req.body);
-    const { fav_id, email, name, birthyear, deathyear, nationality } = req.body;
+    const { fav_id, email } = req.body;
 
     // VALIDATION
-    if (!email || !name || !fav_id) {
-      throw new APIError(400, "ID, Name and Email is required");
+    if (!email || !fav_id) {
+      throw new APIError(400, "ID, and Email is required");
     }
 
-    const existingFav = await Favourites.findOne({ fav_id, email, name });
+    const existingFav = await Favourites.findOne({ fav_id, email });
     if (existingFav) {
-      throw new APIError(409, `${name} already in ${email} favourites.`);
+      throw new APIError(409, `${fav_id} already in ${email} favourites.`);
     }
 
-    let bg_img = req?.body?.bg_img || null;
+    const token = await getToken();
+    console.log("Token Response:", token);
+    let url = `${constants.ARTISTS}/${fav_id}`;
+    const headers = { "X-XAPP-Token": token };
+    console.log("Headers:", headers);
+    console.log("URL:", url);
+    const artsyResponse: AxiosResponse = await axios.get(url, {
+      headers,
+    });
+
+    const result = artsyResponse.data;
+    const name = result.name;
+    const birthyear = result.birthday;
+    const deathyear = result.deathday;
+    const nationality = result.nationality;
+    const bg_img = result._links?.thumbnail?.href || null;
 
     const newFav = await new Favourites({
       fav_id,
