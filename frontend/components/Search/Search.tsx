@@ -42,11 +42,10 @@ const Search: React.FC = () => {
   const { search_loading, search_data } = useSelector(
     (state: any) => state.search
   );
-  console.log("search_data", search_data);
   const { similar_artists_data } = useSelector(
     (state: any) => state.similar_artists
   );
-  const { fav_data } = useSelector((state: any) => state.get_fav);
+  const { fav_data, fav_loading } = useSelector((state: any) => state.get_fav);
 
   const handleClear = () => {
     setArtistName("");
@@ -110,7 +109,6 @@ const Search: React.FC = () => {
       );
       addNotification("Added to favorites", "success");
     }
-    dispatch(searchActions.getFav(email));
     setTimeout(() => {
       dispatch(searchActions.getFav(email));
     }, 1000);
