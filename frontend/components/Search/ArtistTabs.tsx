@@ -114,9 +114,9 @@ const ArtistTabs: React.FC<ArtistTabsProps> = ({
           <Spinner
             as="span"
             animation="border"
-            size="sm"
             role="status"
             aria-hidden="true"
+            variant="primary"
           />
         ) : (
           activeTab === "artist-info" &&
@@ -161,9 +161,9 @@ const ArtistTabs: React.FC<ArtistTabsProps> = ({
               <Spinner
                 as="span"
                 animation="border"
-                size="sm"
                 role="status"
                 aria-hidden="true"
+                variant="primary"
               />
             ) : artworks_error ? (
               <Alert variant="danger">{artworks_error}</Alert>
@@ -237,7 +237,7 @@ const ArtistTabs: React.FC<ArtistTabsProps> = ({
         <Modal.Body>
           {categories_loading ? (
             <div className="d-flex justify-content-center align-items-center">
-              <Spinner animation="border" role="status">
+              <Spinner animation="border" role="status" variant="primary">
                 <span className="visually-hidden">Loading...</span>
               </Spinner>
             </div>
