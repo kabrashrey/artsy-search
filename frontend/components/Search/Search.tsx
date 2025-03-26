@@ -42,7 +42,6 @@ const Search: React.FC = () => {
   const { search_loading, search_data } = useSelector(
     (state: any) => state.search
   );
-  console.log("search_data", search_data);
   const { similar_artists_data } = useSelector(
     (state: any) => state.similar_artists
   );
@@ -87,15 +86,32 @@ const Search: React.FC = () => {
     setActiveTab(tab);
   };
 
-  const handleStarClick = (artist: any) => {
-    const isStarred = fav_data?.[artist.id];
+  const handleStarClick = (artist: string, isStarred: boolean) => {
+    const updatedStarredArtists = isStarred
+      ? starredArtists.filter((id) => id !== artist)
+      : [...starredArtists, artist];
+
+    setStarredArtists(updatedStarredArtists);
     if (isStarred) {
-      dispatch(searchActions.getRemoveFav(artist.id));
+      dispatch(
+        searchActions.getRemoveFav({
+          fav_id: artist,
+          email: email,
+        })
+      );
+      addNotification("Removed from favorites", "danger");
     } else {
       dispatch(
-        searchActions.getAddFav({ ...artist, email: email })
+        searchActions.getAddFav({
+          fav_id: artist,
+          email: email,
+        })
       );
+      addNotification("Added to favorites", "success");
     }
+    setTimeout(() => {
+      dispatch(searchActions.getFav(email));
+    }, 1000);
   };
 
   useEffect(() => {
@@ -122,6 +138,13 @@ const Search: React.FC = () => {
         dispatch(searchActions.getArtistDetails(artistId));
       }
     }, [dispatch]);
+
+  useEffect(() => {
+    if (fav_data) {
+      const favoriteIds = fav_data.map((fav: any) => fav.fav_id);
+      setStarredArtists(favoriteIds);
+    }
+  }, [fav_data]);
 
   return (
     <>
@@ -195,7 +218,7 @@ const Search: React.FC = () => {
                             className="star-icon-wrapper"
                             onClick={(e) => {
                               e.stopPropagation();
-                            handleStarClick(artist?.id);
+                            handleStarClick(artist?.id, isStarred);
                             }}
                           >
                             <FontAwesomeIcon

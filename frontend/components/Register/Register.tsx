@@ -29,9 +29,6 @@ const Registration = () => {
     (state: any) => state.register
   );
 
-  console.log(`register_data:`, register_data);
-  console.log(`register_error:`, register_error);
-
   const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     const { name, value } = e.target;
     setFormData((prevData) => ({ ...prevData, [name]: value }));
@@ -85,7 +82,6 @@ const Registration = () => {
 
   useEffect(() => {
     if (register_error) {
-      console.log("Setting error:", register_error);
       setErrors((prevErrors) => ({
         ...prevErrors,
         email: register_error,
@@ -95,7 +91,6 @@ const Registration = () => {
 
   useEffect(() => {
     if (register_data) {
-      console.log("Registration successful:", register_data);
       // setIsLoggedIn(true);
       navigate("/", {
         state: { email: formData.email, password: formData.password },
