@@ -1,4 +1,5 @@
 import React, { useEffect, useState } from "react";
+import { useDispatch, useSelector } from "react-redux";
 import {
   Nav,
   Spinner,
@@ -12,7 +13,7 @@ import {
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faStar as regularStar } from "@fortawesome/free-regular-svg-icons";
 import { faStar as solidStar } from "@fortawesome/free-solid-svg-icons";
-import { useDispatch, useSelector } from "react-redux";
+
 import { getArtworks, getCategories } from "./store/Action";
 
 interface ArtistTabsProps {
@@ -20,6 +21,8 @@ interface ArtistTabsProps {
   activeTab: string;
   setActiveTab: (tab: string) => void;
   user: any;
+  starredArtists: string[]; // Pass starred artists state
+  handleStarClick: any;
 }
 
 const ArtistTabs: React.FC<ArtistTabsProps> = ({
@@ -27,10 +30,11 @@ const ArtistTabs: React.FC<ArtistTabsProps> = ({
   activeTab,
   setActiveTab,
   user,
+  starredArtists,
+  handleStarClick,
 }) => {
   const dispatch = useDispatch();
 
-  const [isStarred, setIsStarred] = useState(false);
   const [showModal, setShowModal] = useState(false);
   const [artworkTitle, setArtworkTitle] = useState("");
   const [artworkYear, setArtworkYear] = useState("");
@@ -41,9 +45,13 @@ const ArtistTabs: React.FC<ArtistTabsProps> = ({
   const { artworks_data, artworks_error, artworks_loading } = useSelector(
     (state: any) => state.artworks
   );
-  const { categories_data, categories_error, categories_loading } = useSelector(
+  const { categories_data, categories_loading } = useSelector(
     (state: any) => state.categories
   );
+
+  // const isStarred = starredArtists.includes(artistId);
+  const isStarred =
+    starredArtists.find((id) => id === artist_details_data?.id) !== undefined;
 
   const handleSelect = (selectedKey: string | null) => {
     if (selectedKey) {
@@ -64,23 +72,18 @@ const ArtistTabs: React.FC<ArtistTabsProps> = ({
     setShowModal(true);
   };
 
-  // const handleStarClick = (payload: any) => {
-  //   setIsStarred((prev) => !prev);
-  //   // Implement logic to save/remove from favorites
-  // };
-
   useEffect(() => {
     if (activeTab === "artworks") {
       dispatch(getArtworks(artistId));
     }
   }, [activeTab, artistId, dispatch]);
 
-  // useEffect(() => {
-  //   if (artistId) {
-  //     dispatch(getArtistDetails(artistId));
-  //     dispatch(getArtworks(artistId));
-  //   }
-  // }, [artistId, dispatch]);
+  useEffect(() => {
+    if (artistId) {
+      dispatch(getArtworks(artistId));
+    }
+  }, [artistId, dispatch]);
+
 
   return (
     <>
@@ -120,24 +123,30 @@ const ArtistTabs: React.FC<ArtistTabsProps> = ({
           artist_details_data && (
             <div>
               <div style={{ fontSize: "1.5rem" }}>
-                {artist_details_data.name} {""}
+                {artist_details_data?.title} {""}
                 {Object.keys(user).length > 0 && (
                   <FontAwesomeIcon
                     icon={isStarred ? solidStar : regularStar}
-                    className="star-icon-artist-details"
-                    // onClick={() => handleStarClick(artist_details_data)}
+                    style={{
+                      color: isStarred ? "gold" : "black",
+                      cursor: "pointer",
+                      fontSize: "20px"
+                    }}
+                    onClick={(e) => {
+                      handleStarClick(artist_details_data?.id, isStarred);
+                    }}
                   />
                 )}
               </div>
               <h4 style={{ fontSize: "1rem" }}>
-                {artist_details_data.nationality} (
-                {artist_details_data.birthyear} -{" "}
-                {artist_details_data.deathyear || "Present"})
+                {artist_details_data?.nationality} (
+                {artist_details_data?.birthyear} -{" "}
+                {artist_details_data?.deathyear || "Present"})
               </h4>
-              {artist_details_data.biography
-                .replace(/(\w+)-\s+(\w+)/g, "$1$2") // Fixes split words like "Cub- ism" → "Cubism"
-                .split(/\n\s*\n/) // Ensures proper paragraph separation
-                .map((paragraph: any, index: any) => (
+              {artist_details_data?.biography
+                ?.replace(/(\w+)-\s+(\w+)/g, "$1$2") // Fixes split words
+                ?.split(/\n\s*\n/) // Ensure paragraph separation
+                ?.map((paragraph: any, index: any) => (
                   <p key={index} style={{ textAlign: "justify" }}>
                     {paragraph}
                   </p>

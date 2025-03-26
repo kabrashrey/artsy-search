@@ -1,6 +1,6 @@
-import React, { useEffect, useState } from "react";
-import { useDispatch, useSelector } from "react-redux";
-import { Container, Row, Col, Card, Spinner } from "react-bootstrap";
+import React, { useState } from "react";
+import { useDispatch } from "react-redux";
+import { Container, Row, Col, Card } from "react-bootstrap";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faStar as regularStar } from "@fortawesome/free-regular-svg-icons";
 import { faStar as solidStar } from "@fortawesome/free-solid-svg-icons";
@@ -13,6 +13,8 @@ interface SimilarArtistProps {
   activeTab: string;
   setActiveTab: (tab: string) => void;
   user: any;
+  starredArtists: string[]; // Pass starred artists state
+  handleStarClick: any;
 }
 
 const SimilarArtist: React.FC<SimilarArtistProps> = ({
@@ -20,14 +22,17 @@ const SimilarArtist: React.FC<SimilarArtistProps> = ({
   activeTab,
   setActiveTab,
   user,
+  starredArtists,
+  handleStarClick,
 }) => {
   const dispatch = useDispatch();
-  const [isStarred, setIsStarred] = useState(false);
   const [selectedArtist, setSelectedArtist] = useState<string | null>(null);
+
   const handleArtistClick = (artistId: string) => {
     setSelectedArtist(artistId);
     dispatch(searchActions.getArtistDetails(artistId));
     dispatch(searchActions.getSimilarArtists(artistId));
+    dispatch(searchActions.getFav(user.email));
   };
   return (
     <>
@@ -37,7 +42,8 @@ const SimilarArtist: React.FC<SimilarArtistProps> = ({
             {similar_artists &&
               activeTab == "artist-info" &&
               similar_artists.map((artist: any) => {
-                // isStarred = !!fav_data?.[artist.id];
+                const isStarred =
+                  starredArtists.find((id) => id === artist.id) !== undefined;
                 return (
                   <Col
                     key={artist.id}
@@ -54,14 +60,18 @@ const SimilarArtist: React.FC<SimilarArtistProps> = ({
                       {Object.keys(user).length > 0 && (
                         <div
                           className="star-icon-wrapper"
-                          // onClick={(e) => {
-                          //   e.stopPropagation();
-                          //   handleStarClick(artist);
-                          // }}
+                          onClick={(e) => {
+                            e.stopPropagation();
+                            handleStarClick(artist?.id, isStarred);
+                          }}
                         >
                           <FontAwesomeIcon
                             icon={isStarred ? solidStar : regularStar}
-                            className="star-icon"
+                            style={{
+                              color: isStarred ? "gold" : "white",
+                              cursor: "pointer",
+                              fontSize: "20px",
+                            }}
                           />
                         </div>
                       )}
