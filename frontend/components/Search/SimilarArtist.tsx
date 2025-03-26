@@ -6,6 +6,7 @@ import { faStar as regularStar } from "@fortawesome/free-regular-svg-icons";
 import { faStar as solidStar } from "@fortawesome/free-solid-svg-icons";
 
 import { searchActions } from "./store/Action";
+import artsy_logo from "../../assets/artsy_logo.svg";
 import "./SearchStyles.scss";
 
 interface SimilarArtistProps {
@@ -77,7 +78,7 @@ const SimilarArtist: React.FC<SimilarArtistProps> = ({
                       )}
                       <Card.Img
                         variant="top"
-                        src={artist.thumbnail || "./assets/artsy_logo.svg"}
+                        src={artist.thumbnail || artsy_logo}
                         alt={artist.name}
                         className="fixed-img"
                       />

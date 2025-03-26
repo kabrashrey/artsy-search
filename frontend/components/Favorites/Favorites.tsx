@@ -6,6 +6,7 @@ import { Container, Card, Alert, Row, Col, Spinner } from "react-bootstrap";
 import { getArtistDetails, getRemoveFav, getFav } from "../Search/store/Action";
 import { searchActions } from "../Search/store/Action";
 import { useNotification } from "../Notification/NotificationContext";
+import artsy_logo from "../../assets/artsy_logo.svg"
 
 const Favorites = () => {
   const dispatch = useDispatch();
@@ -106,7 +107,7 @@ const Favorites = () => {
                   className="background-img"
                   style={{
                     background: `url(${
-                      artist.bg_img || "./assets/artsy_logo.svg"
+                      artist.bg_img || artsy_logo
                     }) center/cover no-repeat`,
                     filter: "blur(8px)",
                     position: "absolute",
