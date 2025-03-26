@@ -1,0 +1,6 @@
+dispatch:
+  - url: "artsy-shrey-3.wl.r.appspot.com/api/*"
+    service: backend
+
+  - url: "artsy-shrey-3.wl.r.appspot.com/*"
+    service: frontend
