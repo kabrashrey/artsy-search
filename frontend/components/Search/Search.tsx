@@ -4,7 +4,6 @@ import { useLocation, useNavigate } from "react-router-dom";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faStar as regularStar } from "@fortawesome/free-regular-svg-icons";
 import { faStar as solidStar } from "@fortawesome/free-solid-svg-icons";
-
 import {
   Container,
   Row,
@@ -19,30 +18,42 @@ import {
 } from "react-bootstrap";
 
 import { searchActions } from "./store/Action";
-
-import "./SearchStyles.scss";
 import ArtistTabs from "./ArtistTabs";
 import SimilarArtist from "./SimilarArtist";
+import { useNotification } from "../Notification/NotificationContext";
+import "./SearchStyles.scss";
 
 const Search: React.FC = () => {
   const dispatch = useDispatch();
   const location = useLocation();
   const navigate = useNavigate();
+  const { addNotification } = useNotification();
 
   const [selectedArtist, setSelectedArtist] = useState<string | null>(null);
   const [activeTab, setActiveTab] = useState("artist-info");
   const [artistName, setArtistName] = useState("");
   const [searchPerformed, setSearchPerformed] = useState(false);
+  const [starredArtists, setStarredArtists] = useState<string[]>([]);
 
-  const { login_data } = useSelector((state: any) => state.login);
-  const { fav_data } = useSelector((state: any) => state.get_fav);
   const user = JSON.parse(localStorage.getItem("user") || "{}");
+  const email = user?.email;
+
+  const { search_loading, search_data } = useSelector(
+    (state: any) => state.search
+  );
+  console.log("search_data", search_data);
+  const { similar_artists_data } = useSelector(
+    (state: any) => state.similar_artists
+  );
+  const { fav_data } = useSelector((state: any) => state.get_fav);
 
   const handleClear = () => {
     setArtistName("");
     setSelectedArtist(null);
     setSearchPerformed(false);
     dispatch(searchActions.clearSearchResults());
+    localStorage.removeItem("selectedArtist");
+    navigate("/", { replace: true, state: {} }); // navigate to search with state cleared
   };
 
   const handleSearch = () => {
@@ -51,11 +62,11 @@ const Search: React.FC = () => {
       setSearchPerformed(true);
       dispatch(searchActions.getArtistRequest(artistName));
     }
-    if (login_data || Object.keys(user).length > 0) {
-      const email = user ? user?.email : login_data?.user?.email;
+    if (Object.keys(user).length > 0) {
       dispatch(searchActions.getFav(email));
     }
   };
+
   const handleKeyPress = (e: React.KeyboardEvent<HTMLInputElement>) => {
     if (e.key === "Enter") {
       handleSearch();
@@ -68,10 +79,9 @@ const Search: React.FC = () => {
     if (Object.keys(user).length > 0) {
       dispatch(searchActions.getSimilarArtists(artistId));
     }
-    // if (location.state) {
-    //   navigate("/", { state: { artistId: artistId } });
-    // }
+    localStorage.setItem("selectedArtist", JSON.stringify(artistId));
   };
+
   const handleTabChange = (tab: string) => {
     setActiveTab(tab);
   };
@@ -82,29 +92,10 @@ const Search: React.FC = () => {
       dispatch(searchActions.getRemoveFav(artist.id));
     } else {
       dispatch(
-        searchActions.getAddFav({ ...artist, email: login_data?.email })
+        searchActions.getAddFav({ ...artist, email: email })
       );
     }
   };
-
-  const { search_loading, search_data, search_error } = useSelector(
-    (state: any) => state.search
-  );
-  const {
-    similar_artists_loading,
-    similar_artists_data,
-    similar_artists_error,
-  } = useSelector((state: any) => state.similar_artists);
-
-  let isStarred = false;
-  const starredArtists = "";
-
-  // useEffect(() => {
-  //   if (login_data || user) {
-  //     let email = user ? user?.email : login_data?.user?.email;
-  //     dispatch(searchActions.getFav(email));
-  //   }
-  // }, [login_data, dispatch]);
 
   useEffect(() => {
     if (location.state?.logout) {
@@ -118,9 +109,18 @@ const Search: React.FC = () => {
       dispatch(searchActions.getArtistDetails(location.state.artistId));
       setArtistName(""); // Clear search bar
       setSearchPerformed(false); // Ensure no previous search results are displayed
-      dispatch({ type: "CLEAR_SEARCH_RESULTS" });
+      dispatch(searchActions.clearSearchResults());
     }
   }, [location.state, dispatch]);
+
+    useEffect(() => {
+      const savedArtist = localStorage.getItem("selectedArtist");
+      if (savedArtist) {
+        const artistId = JSON.parse(savedArtist);
+        setSelectedArtist(artistId);
+        dispatch(searchActions.getArtistDetails(artistId));
+      }
+    }, [dispatch]);
 
   return (
     <>
@@ -167,15 +167,15 @@ const Search: React.FC = () => {
 
       {/* Search Results */}
       <Container>
-        {searchPerformed && search_data.length === 0 && !search_loading ? (
+        {searchPerformed && search_data?.length === 0 && !search_loading ? (
           <Alert key="danger" variant="danger">
             No results.
           </Alert>
         ) : (
           <Row className="d-flex overflow-auto">
             {search_data &&
-              search_data.map((artist: any) => {
-                isStarred = !!fav_data?.[artist.id];
+              search_data?.map((artist: any) => {
+                const isStarred = starredArtists.includes(artist.id);
                 return (
                   <Col
                     key={artist.id}
@@ -189,21 +189,24 @@ const Search: React.FC = () => {
                         handleArtistClick(artist.id);
                       }}
                     >
-                      {login_data ||
-                        (Object.keys(user).length > 0 && (
+                      {Object.keys(user).length > 0 ? (
                           <div
                             className="star-icon-wrapper"
                             onClick={(e) => {
                               e.stopPropagation();
-                              handleStarClick(artist);
+                            handleStarClick(artist?.id);
                             }}
                           >
                             <FontAwesomeIcon
                               icon={isStarred ? solidStar : regularStar}
-                              className="star-icon"
+                              style={{
+                              color: isStarred ? "gold" : "white",
+                              cursor: "pointer",
+                              fontSize: "20px",
+                            }}
                             />
                           </div>
-                        ))}
+                      ) : null}
                       <Card.Img
                         variant="top"
                         src={artist.thumbnail || "./assets/artsy_logo.svg"}
@@ -225,6 +228,8 @@ const Search: React.FC = () => {
             activeTab={activeTab}
             setActiveTab={handleTabChange}
             user={user}
+            starredArtists={starredArtists} // Pass starred artists state
+            handleStarClick={handleStarClick}
           />
         )}
         {/* Similar Artist */}
@@ -234,6 +239,8 @@ const Search: React.FC = () => {
             activeTab={activeTab}
             setActiveTab={handleTabChange}
             user={user}
+            starredArtists={starredArtists} // Pass starred artists state
+            handleStarClick={handleStarClick}
           />
         )}
       </Container>
