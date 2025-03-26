@@ -2,6 +2,7 @@ import Row from "react-bootstrap/Row";
 import Col from "react-bootstrap/Col";
 import Container from "react-bootstrap/Container";
 import React from "react";
+import artsy_logo from "../../assets/artsy_logo.svg";
 import "./FooterStyles.scss";
 
 const Footer = () => {
@@ -21,7 +22,7 @@ const Footer = () => {
             >
               <span className="fs-6 fs-md-5">Powered by </span>
               <img
-                src="./assets/artsy_logo.svg"
+                src={artsy_logo}
                 alt="ArtsyLogo"
                 className="footer-logo"
               />

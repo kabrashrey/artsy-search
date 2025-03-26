@@ -21,6 +21,7 @@ import { searchActions } from "./store/Action";
 import ArtistTabs from "./ArtistTabs";
 import SimilarArtist from "./SimilarArtist";
 import { useNotification } from "../Notification/NotificationContext";
+import artsy_logo from "../../assets/artsy_logo.svg";
 import "./SearchStyles.scss";
 
 const Search: React.FC = () => {
@@ -209,7 +210,7 @@ const Search: React.FC = () => {
                       ) : null}
                       <Card.Img
                         variant="top"
-                        src={artist.thumbnail || "./assets/artsy_logo.svg"}
+                        src={artist.thumbnail || artsy_logo}
                         alt={artist.title}
                       />
                       <Card.Body className="custom-card-body text-white">
