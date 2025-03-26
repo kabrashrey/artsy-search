@@ -18,7 +18,6 @@ const Header = () => {
   const [activeLink, setActiveLink] = useState<string | null>(null);
 
   const user = JSON.parse(localStorage.getItem("user") || "{}");
-  // let user = user_data;
 
   const [logout, setLogout] = useState(false);
   const { logout_data } = useSelector((state: any) => state.logout);

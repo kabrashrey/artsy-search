@@ -32,8 +32,6 @@ function* loginSaga(action: AnyAction): Generator<any, void, any> {
     }
 
     // Store tokens in localStorage
-    localStorage.setItem("accessToken", data?.data?.accessToken);
-    localStorage.setItem("refreshToken", data?.data?.refreshToken);
     localStorage.setItem("user", JSON.stringify(data?.data?.user));
 
     yield put({
@@ -75,8 +73,6 @@ function* logoutSaga(action: AnyAction): Generator<any, void, any> {
     }
 
     // Clear tokens from localStorage on logout
-    localStorage.removeItem("accessToken");
-    localStorage.removeItem("refreshToken");
     localStorage.removeItem("user");
 
     yield put({

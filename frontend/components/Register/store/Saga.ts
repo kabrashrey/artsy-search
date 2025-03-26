@@ -30,8 +30,6 @@ function* registerSaga(action: AnyAction): Generator<any, void, any> {
       return;
     }
 
-    // localStorage.setItem("accessToken", data?.data?.accessToken);
-    // localStorage.setItem("refreshToken", data?.data?.refreshToken);
     localStorage.setItem("user", JSON.stringify(data?.data));
 
     yield put({
@@ -69,8 +67,6 @@ function* deleteAccountSaga(action: AnyAction): Generator<any, void, any> {
       });
       return;
     }
-    localStorage.removeItem("accessToken");
-    localStorage.removeItem("refreshToken");
     localStorage.removeItem("user");
 
     yield put({

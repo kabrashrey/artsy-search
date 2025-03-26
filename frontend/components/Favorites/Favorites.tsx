@@ -40,6 +40,7 @@ const Favorites = () => {
 
   const handleCardClick = (artist: any) => {
     dispatch(getArtistDetails(artist));
+    localStorage.setItem("selectedArtist", JSON.stringify(artist));
     navigate("/", {
       state: { artistId: artist },
     });

@@ -76,15 +76,6 @@ const Login = () => {
     }
   }, [login_error]);
 
-  // useEffect(() => {
-  //   // Check if access token exists in localStorage on initial load
-  //   const accessToken = localStorage.getItem("accessToken");
-  //   const refreshToken = localStorage.getItem("refreshToken");
-
-  //   if (accessToken && refreshToken) {
-  //     setIsLoggedIn(true);
-  //   }
-  // }, []);
 
   const isFormValid =
     credentials.email.trim() !== "" &&
