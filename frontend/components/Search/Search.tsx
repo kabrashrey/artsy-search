@@ -176,6 +176,7 @@ const Search: React.FC = () => {
                     role="status"
                     aria-hidden="true"
                     variant="primary"
+                    size="sm"
                   />
                 </>
               ) : (
@@ -214,22 +215,22 @@ const Search: React.FC = () => {
                       }}
                     >
                       {Object.keys(user).length > 0 ? (
-                          <div
-                            className="star-icon-wrapper"
-                            onClick={(e) => {
-                              e.stopPropagation();
+                        <div
+                          className="star-icon-wrapper"
+                          onClick={(e) => {
+                            e.stopPropagation();
                             handleStarClick(artist?.id, isStarred);
-                            }}
-                          >
-                            <FontAwesomeIcon
-                              icon={isStarred ? solidStar : regularStar}
-                              style={{
+                          }}
+                        >
+                          <FontAwesomeIcon
+                            icon={isStarred ? solidStar : regularStar}
+                            style={{
                               color: isStarred ? "gold" : "white",
                               cursor: "pointer",
                               fontSize: "20px",
                             }}
-                            />
-                          </div>
+                          />
+                        </div>
                       ) : null}
                       <Card.Img
                         variant="top"
