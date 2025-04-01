@@ -3,12 +3,14 @@ import { Link, useLocation, useNavigate } from "react-router-dom";
 import { useDispatch, useSelector } from "react-redux";
 import { Form, Button, Container, Card } from "react-bootstrap";
 import { loginActions } from "./store/Action";
+import { useNotification } from "../Notification/NotificationContext";
 
 const Login = () => {
   const location = useLocation();
   const navigate = useNavigate();
   const dispatch = useDispatch();
   const prefilledData = location.state || {};
+  const { addNotification } = useNotification();
 
   const [credentials, setCredentials] = useState({
     email: prefilledData.email || "",
@@ -64,6 +66,7 @@ const Login = () => {
   useEffect(() => {
     if (login_data) {
       setIsLoggedIn(true);
+      addNotification("Logged In", "success");
       navigate("/", {
         state: { isLoggedIn: true, email: credentials.email },
       });
