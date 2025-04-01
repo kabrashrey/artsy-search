@@ -84,7 +84,6 @@ const ArtistTabs: React.FC<ArtistTabsProps> = ({
     }
   }, [artistId, dispatch]);
 
-
   return (
     <>
       <div>
@@ -97,14 +96,10 @@ const ArtistTabs: React.FC<ArtistTabsProps> = ({
             className="custom-nav-pills"
           >
             <Nav.Item>
-              <Nav.Link eventKey="artist-info">
-                Artist Info
-              </Nav.Link>
+              <Nav.Link eventKey="artist-info">Artist Info</Nav.Link>
             </Nav.Item>
             <Nav.Item>
-              <Nav.Link eventKey="artworks">
-                Artworks
-              </Nav.Link>
+              <Nav.Link eventKey="artworks">Artworks</Nav.Link>
             </Nav.Item>
           </Nav>
         )}
@@ -169,7 +164,9 @@ const ArtistTabs: React.FC<ArtistTabsProps> = ({
             ) : artworks_error ? (
               <Alert variant="danger">{artworks_error}</Alert>
             ) : artworks_data && artworks_data.length === 0 ? (
-              <Alert variant="danger">No Artworks.</Alert>
+              <Alert variant="danger" className="text-start">
+                No Artworks.
+              </Alert>
             ) : (
               <Row>
                 {artworks_data.map((artwork: any, index: number) => (

@@ -102,8 +102,6 @@
 .custom-nav-pills .nav-link {
   color: #307eb1 !important;
   transition: none !important;
-  transform: scale(1) !important;
-  transition: background-color 0.2s ease-in-out, color 0.2s ease-in-out;
 }
 
 .custom-nav-pills .nav-item {
@@ -117,8 +115,11 @@
 }
 
 .custom-nav-pills .nav-link:hover {
-  background-color:#307eb1 !important;
+  background-color: white; 
+  color: #307eb1; 
+}
+
+.custom-nav-pills .nav-link:active:hover {
+  background-color: #307eb1 !important;
   color: white !important;
-  transform: scale(1) !important;
-  box-shadow: none !important;
 }
