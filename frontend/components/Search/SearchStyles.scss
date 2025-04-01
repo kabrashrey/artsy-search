@@ -1,9 +1,9 @@
 /* Individual Card Styling */
 .custom-card {
   background-color: #205375;
-  width: 200px; /* Fixed width */
+  width: 200px; 
   transition: transform 0.3s ease-in-out;
-  scroll-snap-align: start; /* Ensures the card aligns when scrolling */
+  scroll-snap-align: start; 
   margin-right: -15px;
   position: relative;
 
@@ -23,17 +23,17 @@
   overflow: hidden;
 }
 
-/* Optional: Scrollbar Styling */
+/* Scrollbar Styling */
 .overflow-auto {
-  overflow-x: auto; /* Horizontal scroll if needed */
+  overflow-x: auto; 
   -webkit-overflow-scrolling: touch;
 }
 
 .star-icon-wrapper {
-  background-color: #205375; // Apply the background color
+  background-color: #205375; 
   border-radius: 50%;
   position: absolute;
-  width: 40px; // Adjust size as needed
+  width: 40px; 
   height: 40px;
   top: 10px;
   right: 10px;
@@ -44,34 +44,34 @@
   cursor: pointer;
 
   &:hover {
-    background-color: #307eb1; // Slightly darker shade on hover
+    background-color: #307eb1; 
   }
 }
 
 .nav-pills .nav-link {
-  color: #205375; // Default text color
+  color: #205375; 
 }
 
 .nav-pills .nav-link.active {
-  background-color: #307eb1 !important; // Selected tab background color
-  color: white !important; // Ensure text is visible
+  background-color: #307eb1 !important; 
+  color: white !important; 
 }
 
 .fixed-img {
-  height: 15rem; /* Fixed height for the image */
+  height: 15rem; 
   object-fit: cover; /* Ensure image covers the card without distortion */
-  width: 100%; /* Ensure image spans full card width */
+  width: 100%; 
 }
 
 
 .artist-name {
-  font-size: 14px; /* Adjust font size */
+  font-size: 14px; 
   font-weight: 500;
   color: white;
   text-overflow: ellipsis;
   overflow: hidden;
   white-space: nowrap; /* Prevent text wrapping */
-  margin: 0; /* Remove default margin */
+  margin: 0;
 }
 
 .d-flex-similar {
@@ -93,9 +93,32 @@
 
 .custom-card-similar-body {
   display: flex;
-  // justify-content: center;
   align-items: center;
-  height: 50px; /* Fixed height for the body to ensure it's compact */
-  // padding: 5px; /* Added padding to prevent text from touching edges */
-  text-align: center; /* Ensure text is centered */
+  height: 50px;
+  text-align: center; 
+}
+
+
+.custom-nav-pills .nav-link {
+  color: #307eb1 !important;
+  transition: none !important;
+  transform: scale(1) !important;
+  transition: background-color 0.2s ease-in-out, color 0.2s ease-in-out;
+}
+
+.custom-nav-pills .nav-item {
+  margin: 0;
+  padding: 0; 
+}
+
+.custom-nav-pills .nav-link.active {
+  color: white !important;
+  background-color: #307eb1 !important;
+}
+
+.custom-nav-pills .nav-link:hover {
+  background-color:#307eb1 !important;
+  color: white !important;
+  transform: scale(1) !important;
+  box-shadow: none !important;
 }

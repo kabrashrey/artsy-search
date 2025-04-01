@@ -94,14 +94,15 @@ const ArtistTabs: React.FC<ArtistTabsProps> = ({
             variant="pills"
             activeKey={activeTab}
             onSelect={handleSelect}
+            className="custom-nav-pills"
           >
             <Nav.Item>
-              <Nav.Link eventKey="artist-info" className="text-blue">
+              <Nav.Link eventKey="artist-info">
                 Artist Info
               </Nav.Link>
             </Nav.Item>
             <Nav.Item>
-              <Nav.Link eventKey="artworks" className="text-blue">
+              <Nav.Link eventKey="artworks">
                 Artworks
               </Nav.Link>
             </Nav.Item>
@@ -130,7 +131,7 @@ const ArtistTabs: React.FC<ArtistTabsProps> = ({
                     style={{
                       color: isStarred ? "gold" : "black",
                       cursor: "pointer",
-                      fontSize: "20px"
+                      fontSize: "20px",
                     }}
                     onClick={(e) => {
                       handleStarClick(artist_details_data?.id, isStarred);

@@ -165,7 +165,7 @@ const Search: React.FC = () => {
             <Button
               type="submit"
               className="custom-btn"
-              disabled={search_loading}
+              disabled={search_loading || !artistName}
               onClick={handleSearch}
             >
               {search_loading ? (
@@ -176,7 +176,7 @@ const Search: React.FC = () => {
                     animation="border"
                     role="status"
                     aria-hidden="true"
-                    variant="primary"
+                    variant="light"
                     size="sm"
                   />
                 </>
