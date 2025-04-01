@@ -44,7 +44,7 @@ const Header = () => {
   };
 
   useEffect(() => {
-    if (!localStorage.getItem("accessToken")) {
+    if (!localStorage.getItem("user")) {
       dispatch(loginActions.clearLoginData());
       dispatch(searchActions.clearSearchResults());
       setLogout(true);
