@@ -58,7 +58,7 @@
 }
 
 .fixed-img {
-  height: 140px; /* Fixed height for the image */
+  height: 15rem; /* Fixed height for the image */
   object-fit: cover; /* Ensure image covers the card without distortion */
   width: 100%; /* Ensure image spans full card width */
 }
@@ -93,9 +93,9 @@
 
 .custom-card-similar-body {
   display: flex;
-  justify-content: center;
+  // justify-content: center;
   align-items: center;
   height: 50px; /* Fixed height for the body to ensure it's compact */
-  padding: 5px; /* Added padding to prevent text from touching edges */
+  // padding: 5px; /* Added padding to prevent text from touching edges */
   text-align: center; /* Ensure text is centered */
 }

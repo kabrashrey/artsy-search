@@ -198,7 +198,7 @@ const Search: React.FC = () => {
             No results.
           </Alert>
         ) : (
-          <Row className="d-flex overflow-auto">
+          <Row className="d-flex overflow-auto pb-3">
             {search_data &&
               search_data?.map((artist: any) => {
                 const isStarred = starredArtists.includes(artist.id);
