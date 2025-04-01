@@ -90,7 +90,7 @@ const Header = () => {
                   >
                     Favorites
                   </Nav.Link>
-                  <Dropdown>
+                  <Dropdown className="me-3">
                     <Dropdown.Toggle variant="light" id="dropdown-basic">
                       <img
                         src={user?.avatar}
@@ -102,7 +102,7 @@ const Header = () => {
                       />
                       {user?.name}
                     </Dropdown.Toggle>
-                    <Dropdown.Menu>
+                    <Dropdown.Menu align="end">
                       <Dropdown.Item
                         onClick={handleDeleteAccount}
                         className="text-danger"

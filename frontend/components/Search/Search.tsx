@@ -54,6 +54,7 @@ const Search: React.FC = () => {
     dispatch(searchActions.clearSearchResults());
     localStorage.removeItem("selectedArtist");
     navigate("/", { replace: true, state: {} }); // navigate to search with state cleared
+    setActiveTab("artist-info");
   };
 
   const handleSearch = () => {
