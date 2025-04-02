@@ -30,8 +30,9 @@ const Header = () => {
     dispatch(loginActions.clearLoginData());
     dispatch(searchActions.clearSearchResults());
     setLogout(true);
-    addNotification("Logged out", "success");
     navigate("/", { state: { logout: logout } });
+    dispatch(registerActions.clearRegisterData());
+    addNotification("Logged out", "success");
   };
 
   const handleDeleteAccount = () => {
