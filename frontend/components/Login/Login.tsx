@@ -75,7 +75,7 @@ const Login = () => {
 
   useEffect(() => {
     if (login_error) {
-      setErrors((prevErrors) => ({ ...prevErrors, email: login_error }));
+      setErrors((prevErrors) => ({ ...prevErrors, password: login_error }));
     }
   }, [login_error]);
 
