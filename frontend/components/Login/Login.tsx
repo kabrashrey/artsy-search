@@ -100,6 +100,7 @@ const Login = () => {
                 onChange={handleChange}
                 required
                 isInvalid={!!errors.email}
+                placeholder="Enter email"
               />
               <Form.Control.Feedback type="invalid">
                 {errors.email}
@@ -115,6 +116,7 @@ const Login = () => {
                 onChange={handleChange}
                 required
                 isInvalid={!!errors.password}
+                placeholder="Password"
               />
               <Form.Control.Feedback type="invalid">
                 {errors.password}

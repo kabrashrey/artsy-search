@@ -113,6 +113,7 @@ const Registration = () => {
                 onChange={handleChange}
                 required
                 isInvalid={!!errors.name}
+                placeholder="John Doe"
               />
               <Form.Control.Feedback type="invalid">
                 {errors.name}
@@ -128,6 +129,7 @@ const Registration = () => {
                 onChange={handleChange}
                 required
                 isInvalid={!!errors.email}
+                placeholder="Enter email"
               />
               <Form.Control.Feedback type="invalid">
                 {errors.email}
@@ -142,6 +144,7 @@ const Registration = () => {
                 value={formData.password}
                 onChange={handleChange}
                 required
+                placeholder="Password"
               />
             </Form.Group>
 
