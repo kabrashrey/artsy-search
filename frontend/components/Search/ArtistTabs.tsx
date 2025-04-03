@@ -189,7 +189,7 @@ const ArtistTabs: React.FC<ArtistTabsProps> = ({
 
                         <Button
                           variant="light"
-                          className="w-100"
+                          className="w-100 custom-button"
                           onClick={() =>
                             handleCategories(
                               artwork?.id,
@@ -241,9 +241,11 @@ const ArtistTabs: React.FC<ArtistTabsProps> = ({
         <Modal.Body>
           {categories_loading ? (
             <div className="d-flex justify-content-center align-items-center">
-              <Spinner animation="border" role="status" variant="primary">
-                <span className="visually-hidden">Loading...</span>
-              </Spinner>
+              <Spinner
+                animation="border"
+                role="status"
+                variant="primary"
+              ></Spinner>
             </div>
           ) : categories_data.length > 0 ? (
             <Row>

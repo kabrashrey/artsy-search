@@ -1,11 +1,12 @@
 import React, { useState } from "react";
 import "bootstrap/dist/css/bootstrap.min.css";
 import {
-  BrowserRouter as Router,
+  HashRouter as Router,
   Route,
   Routes,
   useParams,
 } from "react-router-dom";
+
 import Footer from "../components/Footer/Footer";
 import Navbar from "../components/Navbar/Navbar";
 import Register from "../components/Register/Register";
@@ -43,17 +44,21 @@ function App() {
 
   const SimilarArtistWrapper: React.FC = () => {
     const [activeTab, setActiveTab] = useState("artist-info");
+    const [selectedArtist, setSelectedArtist] = useState<string | null>(null);
     const user = JSON.parse(localStorage.getItem("user") || "{}");
-    const { starredArtists, handleStarClick } = useStarredArtists();
+    const { starredArtists, handleStarClick, handleArtistClick } =
+      useStarredArtists();
 
     return (
       <SimilarArtist
         similar_artists={[]}
         activeTab={activeTab}
-        setActiveTab={setActiveTab}
         user={user}
         starredArtists={starredArtists}
         handleStarClick={handleStarClick}
+        handleArtistClick={handleArtistClick}
+        setSelectedArtist={setSelectedArtist}
+        selectedArtist={selectedArtist}
       />
     );
   };
