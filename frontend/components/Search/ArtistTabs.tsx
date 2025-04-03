@@ -179,8 +179,14 @@ const ArtistTabs: React.FC<ArtistTabsProps> = ({
                         style={{ height: "200px", objectFit: "cover" }}
                       />
                       <Card.Body>
-                        <Card.Title>{artwork?.title}</Card.Title>
-                        <Card.Text>{artwork?.date}</Card.Text>
+                        <div>
+                          <Card.Title>
+                            {artwork?.title}
+                            {", "}
+                            {artwork?.date}
+                          </Card.Title>
+                        </div>
+
                         <Button
                           variant="light"
                           className="w-100"

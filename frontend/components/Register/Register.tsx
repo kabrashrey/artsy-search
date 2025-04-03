@@ -105,7 +105,7 @@ const Registration = () => {
           <h1 className="mb-4">Register</h1>
           <Form onSubmit={handleSubmit}>
             <Form.Group className="mb-3">
-              <Form.Label>Full Name</Form.Label>
+              <Form.Label>Fullname</Form.Label>
               <Form.Control
                 type="text"
                 name="name"
@@ -145,7 +145,11 @@ const Registration = () => {
                 onChange={handleChange}
                 required
                 placeholder="Password"
+                isInvalid={!!errors.password}
               />
+              <Form.Control.Feedback type="invalid">
+                {errors.password}
+              </Form.Control.Feedback>
             </Form.Group>
 
             <div className="d-flex justify-content-center">
