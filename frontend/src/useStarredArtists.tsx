@@ -10,6 +10,12 @@ export const useStarredArtists = () => {
       setStarredArtists([...starredArtists, artistId]);
     }
   };
+  const handleArtistClick = (artistId: string) => {
+  };
 
-  return { starredArtists, handleStarClick };
+  return { starredArtists, handleStarClick, handleArtistClick };
+
+  
 };
+
+

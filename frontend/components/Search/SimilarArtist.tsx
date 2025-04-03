@@ -1,40 +1,42 @@
-import React, { useState } from "react";
-import { useDispatch } from "react-redux";
+import React from "react";
 import { Container, Row, Col, Card } from "react-bootstrap";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faStar as regularStar } from "@fortawesome/free-regular-svg-icons";
 import { faStar as solidStar } from "@fortawesome/free-solid-svg-icons";
 
-import { searchActions } from "./store/Action";
 import artsy_logo from "../../assets/artsy_logo.svg";
 import "./SearchStyles.scss";
 
 interface SimilarArtistProps {
   similar_artists: any;
   activeTab: string;
-  setActiveTab: (tab: string) => void;
   user: any;
   starredArtists: string[]; // Pass starred artists state
   handleStarClick: any;
+  handleArtistClick: any;
+  setSelectedArtist: any;
+  selectedArtist: string | null;
 }
 
 const SimilarArtist: React.FC<SimilarArtistProps> = ({
   similar_artists,
   activeTab,
-  setActiveTab,
   user,
   starredArtists,
   handleStarClick,
+  handleArtistClick,
+  setSelectedArtist,
+  selectedArtist,
 }) => {
-  const dispatch = useDispatch();
-  const [selectedArtist, setSelectedArtist] = useState<string | null>(null);
+  // const dispatch = useDispatch();
+  // const [selectedArtist, setSelectedArtist] = useState<string | null>(null);
 
-  const handleArtistClick = (artistId: string) => {
-    setSelectedArtist(artistId);
-    dispatch(searchActions.getArtistDetails(artistId));
-    dispatch(searchActions.getSimilarArtists(artistId));
-    dispatch(searchActions.getFav(user.email));
-  };
+  // const handleArtistClick = (artistId: string) => {
+  //   setSelectedArtist(artistId);
+  //   dispatch(searchActions.getArtistDetails(artistId));
+  //   dispatch(searchActions.getSimilarArtists(artistId));
+  //   dispatch(searchActions.getFav(user.email));
+  // };
   return (
     <>
       <Container>
@@ -86,11 +88,7 @@ const SimilarArtist: React.FC<SimilarArtistProps> = ({
                           alt={artist.name}
                           className="fixed-img"
                         />
-                        <Card.Body
-                          className="text-white custom-card-similar-body"
-                          // style={{ backgroundColor: "#205375" }}
-                        >
-                          {/* <Card.Text className="custom-card-similar-body">{artist.name}</Card.Text> */}
+                        <Card.Body className="text-white custom-card-similar-body">
                           <p className="artist-name">{artist.name}</p>
                         </Card.Body>
                       </Card>

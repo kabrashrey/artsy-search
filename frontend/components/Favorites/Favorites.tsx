@@ -6,7 +6,7 @@ import { Container, Card, Alert, Row, Col, Spinner } from "react-bootstrap";
 import { getArtistDetails, getRemoveFav, getFav } from "../Search/store/Action";
 import { searchActions } from "../Search/store/Action";
 import { useNotification } from "../Notification/NotificationContext";
-import artsy_logo from "../../assets/artsy_logo.svg"
+import artsy_logo from "../../assets/artsy_logo.svg";
 
 const Favorites = () => {
   const dispatch = useDispatch();
@@ -164,8 +164,8 @@ const Favorites = () => {
           ))}
         </Row>
       ) : (
-        <Alert key="danger" variant="danger" className="text-center">
-          No favorites.
+        <Alert key="danger" variant="danger">
+          No favorite artists.
         </Alert>
       )}
     </Container>

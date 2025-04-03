@@ -77,6 +77,7 @@ const Search: React.FC = () => {
   const handleArtistClick = (artistId: string) => {
     setSelectedArtist(artistId);
     dispatch(searchActions.getArtistDetails(artistId));
+    setActiveTab("artist-info");
     if (Object.keys(user).length > 0) {
       dispatch(searchActions.getSimilarArtists(artistId));
     }
@@ -137,6 +138,7 @@ const Search: React.FC = () => {
         const artistId = JSON.parse(savedArtist);
         setSelectedArtist(artistId);
         dispatch(searchActions.getArtistDetails(artistId));
+        dispatch(searchActions.getFav(email));
       }
     }, [dispatch]);
 
@@ -263,10 +265,12 @@ const Search: React.FC = () => {
           <SimilarArtist
             similar_artists={similar_artists_data}
             activeTab={activeTab}
-            setActiveTab={handleTabChange}
             user={user}
             starredArtists={starredArtists} // Pass starred artists state
             handleStarClick={handleStarClick}
+            handleArtistClick={handleArtistClick}
+            setSelectedArtist={setSelectedArtist}
+            selectedArtist={selectedArtist}
           />
         )}
       </Container>
