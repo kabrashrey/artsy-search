@@ -132,15 +132,18 @@ const Search: React.FC = () => {
     }
   }, [location.state, dispatch]);
 
-    useEffect(() => {
-      const savedArtist = localStorage.getItem("selectedArtist");
-      if (savedArtist) {
-        const artistId = JSON.parse(savedArtist);
-        setSelectedArtist(artistId);
-        dispatch(searchActions.getArtistDetails(artistId));
-        dispatch(searchActions.getFav(email));
+  useEffect(() => {
+    const savedArtist = localStorage.getItem("selectedArtist");
+    if (savedArtist) {
+      const artistId = JSON.parse(savedArtist);
+      setSelectedArtist(artistId);
+      dispatch(searchActions.getArtistDetails(artistId));
+      dispatch(searchActions.getFav(email));
+      if (Object.keys(user).length > 0) {
+        dispatch(searchActions.getSimilarArtists(artistId));
       }
-    }, [dispatch]);
+    }
+  }, [dispatch]);
 
   useEffect(() => {
     if (fav_data) {
