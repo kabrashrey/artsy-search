@@ -104,8 +104,8 @@ const Registration = () => {
         <Card style={{ width: "350px", padding: "20px", textAlign: "left" }}>
           <h1 className="mb-4">Register</h1>
           <Form onSubmit={handleSubmit}>
-            <Form.Group className="mb-3">
-              <Form.Label>Fullname</Form.Label>
+            <Form.Group className="mb-2">
+              <Form.Label className="mb-0">Fullname</Form.Label>
               <Form.Control
                 type="text"
                 name="name"
@@ -120,8 +120,8 @@ const Registration = () => {
               </Form.Control.Feedback>
             </Form.Group>
 
-            <Form.Group className="mb-3">
-              <Form.Label>Email address</Form.Label>
+            <Form.Group className="mb-2">
+              <Form.Label className="mb-0">Email address</Form.Label>
               <Form.Control
                 type="email"
                 name="email"
@@ -136,8 +136,8 @@ const Registration = () => {
               </Form.Control.Feedback>
             </Form.Group>
 
-            <Form.Group className="mb-3">
-              <Form.Label>Password</Form.Label>
+            <Form.Group className="mb-4">
+              <Form.Label className="mb-0">Password</Form.Label>
               <Form.Control
                 type="password"
                 name="password"
