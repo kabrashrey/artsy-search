@@ -194,7 +194,7 @@ const Search: React.FC = () => {
       </div>
 
       {/* Search Results */}
-      <Container>
+      <Container style={{ maxWidth: "82%" }}>
         {searchPerformed && search_data?.length === 0 && !search_loading ? (
           <Alert key="danger" variant="danger">
             No results.

@@ -29,6 +29,7 @@ const Header = () => {
     dispatch(loginActions.getLogoutRequest(user?.email));
     dispatch(loginActions.clearLoginData());
     dispatch(searchActions.clearSearchResults());
+    dispatch(searchActions.clearFavData());
     setLogout(true);
     navigate("/", { state: { logout: logout } });
     dispatch(registerActions.clearRegisterData());
@@ -92,7 +93,11 @@ const Header = () => {
                     Favorites
                   </Nav.Link>
                   <Dropdown className="me-3">
-                    <Dropdown.Toggle variant="light" id="dropdown-basic">
+                    <Dropdown.Toggle
+                      variant="light"
+                      id="dropdown-basic"
+                      style={{ background: "#eeeff2", border: "none" }}
+                    >
                       <img
                         src={user?.avatar}
                         alt="User Avatar"
@@ -110,6 +115,7 @@ const Header = () => {
                       >
                         Delete Account
                       </Dropdown.Item>
+                      <Dropdown.Divider />
                       <Dropdown.Item onClick={handleLogout}>
                         Log Out
                       </Dropdown.Item>
