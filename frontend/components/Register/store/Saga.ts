@@ -31,6 +31,10 @@ function* registerSaga(action: AnyAction): Generator<any, void, any> {
     }
 
     localStorage.setItem("user", JSON.stringify(data?.data));
+    localStorage.setItem(
+      "accessToken",
+      JSON.stringify(data?.data?.accessToken)
+    );
 
     yield put({
       type: registerActionTypes.SET_REGISTER_REQUEST,
@@ -68,6 +72,7 @@ function* deleteAccountSaga(action: AnyAction): Generator<any, void, any> {
       return;
     }
     localStorage.removeItem("user");
+    localStorage.removeItem("accessToken");
 
     yield put({
       type: registerActionTypes.SET_DELETE_ACCOUNT_REQUEST,
