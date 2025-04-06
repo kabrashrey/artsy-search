@@ -10,7 +10,7 @@ export const constants = {
   CLIENT_SECRET: "a3a2b3beacc7b3525ea9c3f4b245fb1d",
   GENES: "https://api.artsy.net/api/genes",
   ACCESS_TOKEN_SECRET: "artsy-shrey-3",
-  ACCESS_TOKEN_EXPIRY: "1d",
+  ACCESS_TOKEN_EXPIRY: "1h",
   REFRESH_TOKEN_SECRET: "artsy-shrey-3",
   REFRESH_TOKEN_EXPIRY: "10d",
   CORS_ORIGIN: "*",
