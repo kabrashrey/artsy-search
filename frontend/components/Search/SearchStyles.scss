@@ -1,9 +1,9 @@
 /* Individual Card Styling */
 .custom-card {
   background-color: #205375;
-  width: 200px; 
+  width: 200px;
   transition: transform 0.3s ease-in-out;
-  scroll-snap-align: start; 
+  scroll-snap-align: start;
   margin-right: -15px;
   position: relative;
 
@@ -20,20 +20,23 @@
 
 .custom-card-body {
   height: 50px;
-  overflow: hidden;
+  text-align: center;
+  display: flex;
+  align-items: center;
+  justify-content: center;
 }
 
 /* Scrollbar Styling */
 .overflow-auto {
-  overflow-x: auto; 
+  overflow-x: auto;
   -webkit-overflow-scrolling: touch;
 }
 
 .star-icon-wrapper {
-  background-color: #205375; 
+  background-color: #205375;
   border-radius: 50%;
   position: absolute;
-  width: 40px; 
+  width: 40px;
   height: 40px;
   top: 10px;
   right: 10px;
@@ -42,30 +45,25 @@
   align-items: center;
   justify-content: center;
   cursor: pointer;
-
-  &:hover {
-    background-color: #307eb1; 
-  }
 }
 
 .nav-pills .nav-link {
-  color: #205375; 
+  color: #205375;
 }
 
 .nav-pills .nav-link.active {
-  background-color: #307eb1 !important; 
-  color: white !important; 
+  background-color: #307eb1 !important;
+  color: white !important;
 }
 
 .fixed-img {
-  height: 15rem; 
+  height: 15rem;
   object-fit: cover; /* Ensure image covers the card without distortion */
-  width: 100%; 
+  width: 100%;
 }
 
-
 .artist-name {
-  font-size: 14px; 
+  font-size: 14px;
   font-weight: 500;
   color: white;
   text-overflow: ellipsis;
@@ -77,7 +75,6 @@
 .d-flex-similar {
   flex-wrap: nowrap;
 }
-
 
 .custom-card-similar {
   background-color: #205375;
@@ -95,9 +92,8 @@
   display: flex;
   align-items: center;
   height: 50px;
-  text-align: center; 
+  text-align: center;
 }
-
 
 .custom-nav-pills .nav-link {
   color: #307eb1 !important;
@@ -106,7 +102,7 @@
 
 .custom-nav-pills .nav-item {
   margin: 0;
-  padding: 0; 
+  padding: 0;
 }
 
 .custom-nav-pills .nav-link.active {
@@ -115,8 +111,8 @@
 }
 
 .custom-nav-pills .nav-link:hover {
-  background-color: white; 
-  color: #307eb1; 
+  background-color: white;
+  color: #307eb1;
 }
 
 .custom-nav-pills .nav-link:active:hover {
@@ -124,7 +120,18 @@
   color: white !important;
 }
 
+.custom-button {
+  padding-left: 0;
+  padding-right: 0;
+}
+
 .custom-button:hover {
   background-color: #307eb1 !important;
   color: white !important;
+}
+
+.custom-card-body-category {
+  padding-left: 0;
+  padding-right: 0;
+  padding-bottom: 0;
 }

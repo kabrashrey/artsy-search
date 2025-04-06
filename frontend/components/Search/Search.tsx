@@ -210,7 +210,7 @@ const Search: React.FC = () => {
                 return (
                   <Col
                     key={artist.id}
-                    className="d-flex justify-content-center"
+                    className="d-flex justify-content-center align-self-start"
                   >
                     <Card
                       className={`custom-card ${
@@ -219,6 +219,7 @@ const Search: React.FC = () => {
                       onClick={() => {
                         handleArtistClick(artist.id);
                       }}
+                      style={{ cursor: "pointer" }}
                     >
                       {Object.keys(user).length > 0 ? (
                         <div

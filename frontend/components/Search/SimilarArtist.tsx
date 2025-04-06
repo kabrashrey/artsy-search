@@ -63,6 +63,7 @@ const SimilarArtist: React.FC<SimilarArtistProps> = ({
                         onClick={() => {
                           handleArtistClick(artist.id);
                         }}
+                        style={{ cursor: "pointer" }}
                       >
                         {Object.keys(user).length > 0 && (
                           <div

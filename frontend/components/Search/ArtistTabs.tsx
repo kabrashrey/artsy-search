@@ -176,9 +176,13 @@ const ArtistTabs: React.FC<ArtistTabsProps> = ({
                         variant="top"
                         src={artwork?.thumbnail_href}
                         alt={artwork?.title}
-                        style={{ height: "200px", objectFit: "cover" }}
+                        style={{
+                          height: "200px",
+                          objectFit: "cover",
+                          cursor: "pointer",
+                        }}
                       />
-                      <Card.Body>
+                      <Card.Body className="custom-card-body-category">
                         <div>
                           <Card.Title>
                             {artwork?.title}
@@ -189,7 +193,7 @@ const ArtistTabs: React.FC<ArtistTabsProps> = ({
 
                         <Button
                           variant="light"
-                          className="w-100 custom-button"
+                          className="w-100 custom-button "
                           onClick={() =>
                             handleCategories(
                               artwork?.id,

@@ -102,6 +102,7 @@ const Favorites = () => {
               <Card
                 className="favorite-card"
                 onClick={() => handleCardClick(artist.fav_id)}
+                style={{ cursor: "pointer" }}
               >
                 <div
                   className="background-img"
