@@ -67,3 +67,13 @@ The application can be deployed on **Google Cloud** using `gcloud app deploy` fo
 This project is licensed under the MIT License.
 
 🎨 Happy Searching!
+
+
+
+Lighthouse Results for Desktop and Mobile Navigation:
+<img width="1512" alt="Artsy-Lighthouse-Desktop-Navigation" src="https://github.com/user-attachments/assets/a95185e0-6f71-4a84-9b3d-e6232dbdce53" />
+
+<img width="1508" alt="Artsy-Lighthouse-Mobile-Navigation" src="https://github.com/user-attachments/assets/464e25b1-2df0-41d2-a45b-0f1d72976d64" />
+
+
+
