@@ -20,6 +20,7 @@ const Favorites = () => {
   const [localFavorites, setLocalFavorites] = useState(fav_data || []);
   // const [timeAgo, setTimeAgo] = useState<{ [key: string]: string }>({});
   const [currentTime, setCurrentTime] = useState(Date.now());
+  const [isRemoving, setIsRemoving] = useState(false);
 
   const getTimeAgo = (timestamp: string) => {
     const diff = Math.floor(
@@ -35,6 +36,7 @@ const Favorites = () => {
     setLocalFavorites((prev: any) =>
       prev.filter((artist: any) => artist.fav_id !== artistId)
     );
+    setIsRemoving(true);
     dispatch(getRemoveFav({ fav_id: artistId, email: user?.email }));
     addNotification("Removed from favorites", "danger");
   };
@@ -47,26 +49,27 @@ const Favorites = () => {
     });
   };
 
+  // Sync local state when fav_data changes
+  useEffect(() => {
+    if (!isRemoving && fav_data) {
+      setLocalFavorites(fav_data);
+    }
+  }, [fav_data, isRemoving]);
+
+  useEffect(() => {
+    if (removeFav_data) {
+      dispatch(getFav(user?.email));
+      dispatch(searchActions.clearRemoveFavData());
+      setIsRemoving(false);
+    }
+  }, [removeFav_data]);
+
   // Load favorites only on full reload
   useEffect(() => {
     if (Object.keys(user).length > 0 && !localFavorites.length) {
       dispatch(getFav(user?.email));
     }
   }, [dispatch, localFavorites.length]);
-
-  // Sync local state when fav_data changes
-  useEffect(() => {
-    if (fav_data) {
-      setLocalFavorites(fav_data);
-    }
-  }, [fav_data]);
-
-  useEffect(() => {
-    if (removeFav_data) {
-      dispatch(getFav(user?.email));
-      dispatch(searchActions.clearRemoveFavData());
-    }
-  }, [removeFav_data]);
 
   // useEffect(() => {
   //   const interval = setInterval(() => {
@@ -144,7 +147,7 @@ const Favorites = () => {
                   >
                     <button
                       onClick={(e) => {
-                        e.stopPropagation(); // Prevent card click navigation
+                        e.stopPropagation();
                         handleRemove(artist.fav_id);
                       }}
                       style={{
