@@ -10,7 +10,6 @@ import { generateAccessAndRefreshToken } from "../utils/tokens.js";
 const registerUsers = asyncHandler(
   async (req: Request, res: Response): Promise<void> => {
     try {
-      console.log("Registering User", req.body);
       const { email, name, password } = req.body;
 
       // VALIDATION
@@ -24,7 +23,6 @@ const registerUsers = asyncHandler(
       }
 
       const avatar = await getGravatarUrl(email);
-      console.log("Avatar:", avatar);
 
       const user = new Users({ name, email, password, avatar });
       await user.save();
@@ -84,7 +82,6 @@ const deleteUser = asyncHandler(
 const loginUser = asyncHandler(
   async (req: Request, res: Response): Promise<void> => {
     try {
-      console.log("Login User", req.body);
       const { email, password } = req.body;
 
       // VALIDATION
@@ -99,7 +96,6 @@ const loginUser = asyncHandler(
 
       // Validate Password
       const isPasswordValid = await user.isPasswordCorrect(password);
-      console.log("isPasswordValid", isPasswordValid);
       if (!isPasswordValid) {
         throw new APIError(401, "Password or email is incorrect.");
       }

@@ -12,7 +12,6 @@ import { Tokens } from "../models/token.models.js";
 
 const getFavs = asyncHandler(
   async (req: Request, res: Response): Promise<void> => {
-    console.log("Get_fav", req.query);
     const { email } = req.query;
 
     // VALIDATION
@@ -39,7 +38,6 @@ const getFavs = asyncHandler(
 
 const addFav = asyncHandler(
   async (req: Request, res: Response): Promise<void> => {
-    console.log("Add_fav", req.body);
     const { fav_id, email } = req.body;
 
     // VALIDATION
@@ -80,15 +78,6 @@ const addFav = asyncHandler(
       bg_img,
     }).save();
 
-    // const added_fav = await Favourites.findById(newFav._id);
-
-    // if (!added_fav) {
-    //   throw new APIError(
-    //     500,
-    //     "Something went wrong while adding to favourites"
-    //   );
-    // }
-
     res
       .status(201)
       .json(
@@ -99,7 +88,6 @@ const addFav = asyncHandler(
 
 const delFav = asyncHandler(
   async (req: Request, res: Response): Promise<void> => {
-    console.log("Del_fav", req.body);
     const { fav_id, email } = req.body;
 
     // VALIDATION

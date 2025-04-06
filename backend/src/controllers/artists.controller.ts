@@ -9,7 +9,6 @@ import { constants } from "../constants.js";
 
 const getArtists = asyncHandler(
   async (req: Request, res: Response): Promise<any> => {
-    console.log("Artists Details query:", req.query);
     const { id } = req.query;
 
     if (!id) {
@@ -19,7 +18,6 @@ const getArtists = asyncHandler(
     try {
       // Fetching token from Database
       const token = await getToken();
-      console.log("Token Response:", token);
 
       let url = constants.ARTISTS;
       if (!url) {
@@ -31,8 +29,6 @@ const getArtists = asyncHandler(
 
       url += `/${id}`;
       const headers = { "X-XAPP-Token": token };
-      console.log("Headers:", headers);
-      console.log("URL:", url);
 
       const artsyResponse: AxiosResponse = await axios.get(url, { headers });
 
@@ -84,7 +80,6 @@ const getArtists = asyncHandler(
 
 const similarArtists = asyncHandler(
   async (req: Request, res: Response): Promise<any> => {
-    console.log("Similar Artists query:", req.query);
     const { id } = req.query;
 
     if (!id) {
@@ -94,7 +89,6 @@ const similarArtists = asyncHandler(
     try {
       // Fetching token from Database
       const token = await getToken();
-      console.log("Token Response:", token);
 
       let url = constants.ARTISTS;
       if (!url) {
@@ -105,8 +99,6 @@ const similarArtists = asyncHandler(
       }
       url += `?similar_to_artist_id=${id}`;
       const headers = { "X-XAPP-Token": token };
-      console.log("Headers:", headers);
-      console.log("URL:", url);
 
       const artsyResponse: AxiosResponse = await axios.get(url, { headers });
 
@@ -117,9 +109,7 @@ const similarArtists = asyncHandler(
         );
       }
 
-      // console.log("Results:", artsyResponse.data._embedded.artists);
       const results = artsyResponse.data._embedded?.artists || [];
-      console.log("Results:", results);
       const relevantData = results.map((item: any) => {
         const name = item.name || "N/A";
         const id = item.id || "N/A";

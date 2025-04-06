@@ -10,7 +10,6 @@ import { constants } from "../constants.js";
 const getArtistDetails = asyncHandler(
   async (req: Request, res: Response): Promise<any> => {
     try {
-      console.log("Search query:", req.query);
       const { q, size, type } = req.query;
 
       if (!q) {
@@ -19,7 +18,6 @@ const getArtistDetails = asyncHandler(
 
       // Fetching token from Database
       const token = await getToken();
-      console.log("Token Response:", token);
 
       const url = constants.SEARCH;
       if (!url) {
@@ -29,9 +27,6 @@ const getArtistDetails = asyncHandler(
         );
       }
       const headers = { "X-XAPP-Token": token };
-
-      console.log("URL:", url);
-      console.log("Headers:", headers);
 
       const artsyResponse: AxiosResponse = await axios.get(url, {
         headers,

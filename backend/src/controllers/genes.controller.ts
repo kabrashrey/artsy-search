@@ -9,7 +9,6 @@ import { constants } from "../constants.js";
 
 const getGenes = asyncHandler(
   async (req: Request, res: Response): Promise<any> => {
-    console.log("Genes query:", req.query);
     const { artwork_id } = req.query;
 
     if (!artwork_id) {
@@ -30,8 +29,6 @@ const getGenes = asyncHandler(
 
       // url += `/${artwork_id}`;
       const headers = { "X-XAPP-Token": token };
-      console.log("Headers:", headers);
-      console.log("URL:", url);
 
       const artsyResponse: AxiosResponse = await axios.get(url, {
         headers,
@@ -51,8 +48,6 @@ const getGenes = asyncHandler(
         name: item.name,
         thumbnail_href: item._links.thumbnail.href,
       }));
-
-      console.log("genes_Final Result:", finalResult);
 
       return res
         .status(artsyResponse.status)

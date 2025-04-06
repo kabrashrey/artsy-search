@@ -10,7 +10,6 @@ import { constants } from "../constants.js";
 
 const getArtworks = asyncHandler(
   async (req: Request, res: Response): Promise<any> => {
-    console.log("Artworks query:", req.query);
     const { artist_id, size } = req.query;
 
     if (!artist_id || !size) {
@@ -29,11 +28,7 @@ const getArtworks = asyncHandler(
         );
       }
 
-      // url += `/${artist_id}`;
       const headers = { "X-XAPP-Token": token };
-      console.log("Headers:", headers);
-      console.log("URL:", url);
-
       const artsyResponse: AxiosResponse = await axios.get(url, {
         headers,
         params: { artist_id, size },
@@ -54,8 +49,6 @@ const getArtworks = asyncHandler(
         date: item.date,
         thumbnail_href: item._links.thumbnail.href,
       }));
-
-      console.log("Artworks_Final Result:", finalResult);
 
       return res
         .status(artsyResponse.status)

@@ -10,11 +10,9 @@ import { constants } from "../constants.js";
 
 const getToken = async (): Promise<any> => {
   try {
-    console.log("Fetching token from database.");
     const existingToken = await Tokens.findOne().sort({ expires_at: -1 });
 
     if (existingToken && new Date(existingToken.expires_at) > new Date()) {
-      console.log("Returning existing valid token.");
       return existingToken.token;
     }
     const url = constants.AUTH;
@@ -44,11 +42,9 @@ const getToken = async (): Promise<any> => {
       existingToken.token = token;
       existingToken.expires_at = expires_at;
       await existingToken.save(); // Save the updated token
-      console.log("Updated existing token in database.");
     } else {
       // No existing token, create a new one
       const tokenResponse = await new Tokens({ token, expires_at }).save();
-      console.log("Created a new token in database.");
     }
 
     return token;
