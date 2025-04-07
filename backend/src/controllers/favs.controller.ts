@@ -100,7 +100,7 @@ const delFav = asyncHandler(
       throw new APIError(404, "ID or Email does not exist in favourites");
     }
 
-    // Delete user
+    // Delete favourite
     await Favourites.deleteOne({ fav_id, email });
 
     res

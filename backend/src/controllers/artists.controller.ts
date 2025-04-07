@@ -7,6 +7,18 @@ import { APIResponse } from "../utils/APIResponse.js";
 import { getToken } from "./auth.controller.js";
 import { constants } from "../constants.js";
 
+
+const sanitizeText = (text: string = ""): string => {
+  return text
+    .replace(/\x91|\x92/g, "'") // curly single quotes
+    .replace(/\x93|\x94/g, '"') // curly double quotes
+    .replace(/\x96/g, "–") // en dash
+    .replace(/\x97/g, "—") // em dash
+    .replace(/\x85/g, "…") // ellipsis
+    .replace(/\xA0/g, " ") // non-breaking space
+    .trim();
+};
+
 const getArtists = asyncHandler(
   async (req: Request, res: Response): Promise<any> => {
     const { id } = req.query;
@@ -45,7 +57,7 @@ const getArtists = asyncHandler(
         title: result.name,
         birthyear: result.birthday,
         nationality: result.nationality,
-        biography: result.biography,
+        biography: sanitizeText(result.biography),
         deathyear: result.deathday,
       };
 

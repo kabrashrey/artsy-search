@@ -4,6 +4,7 @@ import { asyncHandler } from "../utils/asyncHandler.js";
 import { APIError } from "../utils/APIError.js";
 import { APIResponse } from "../utils/APIResponse.js";
 import { Users } from "../models/users.models.js";
+import { Favourites } from "../models/favorites.models.js";
 import getGravatarUrl from "../utils/generate_gravatar.js";
 import { generateAccessAndRefreshToken } from "../utils/tokens.js";
 
@@ -72,6 +73,7 @@ const deleteUser = asyncHandler(
 
     // Delete user
     await Users.deleteOne({ email });
+    await Favourites.deleteMany({ email });
 
     res
       .status(200)
@@ -156,7 +158,7 @@ const logoutUser = asyncHandler(
       user._id,
       {
         $unset: {
-          refreshToken: 1, // this removes the field from document
+          refreshToken: 1,
         },
       },
       {
