@@ -1,10 +1,8 @@
-import { call, put, takeLatest } from "redux-saga/effects";
+import { call, put, takeLatest, delay } from "redux-saga/effects";
+import { jwtDecode } from "jwt-decode";
 import { loginActionTypes } from "./Action";
 import { AnyAction } from "redux-saga";
 import { apiUrls } from "../../../src/APIUrls";
-
-// const delay = (ms: number) =>
-//   new Promise((resolve) => setTimeout(resolve, ms));
 
 // Worker Saga - API Calls
 function* loginSaga(action: AnyAction): Generator<any, void, any> {
@@ -32,11 +30,10 @@ function* loginSaga(action: AnyAction): Generator<any, void, any> {
     }
 
     // Store tokens in localStorage
-    localStorage.setItem("user", JSON.stringify(data?.data?.user));
-    localStorage.setItem(
-      "accessToken",
-      JSON.stringify(data?.data?.accessToken)
-    );
+    const accessToken = data?.data?.accessToken;
+    const user = data?.data?.user;
+    localStorage.setItem("user", JSON.stringify(user));
+    localStorage.setItem("accessToken", JSON.stringify(accessToken));
 
     yield put({
       type: loginActionTypes.SET_LOGIN_REQUEST,
@@ -49,7 +46,6 @@ function* loginSaga(action: AnyAction): Generator<any, void, any> {
     });
   }
 }
-
 
 function* logoutSaga(action: AnyAction): Generator<any, void, any> {
   try {
@@ -89,6 +85,38 @@ function* logoutSaga(action: AnyAction): Generator<any, void, any> {
       type: loginActionTypes.SET_LOGOUT_ERROR,
       payload: "An unexpected error occurred",
     });
+  }
+}
+
+export function* checkTokenExpirationSaga(): Generator<any, void, any> {
+  const token = localStorage.getItem("accessToken");
+  const user = JSON.parse(localStorage.getItem("user") || "{}");
+
+  if (token && user?.email) {
+    try {
+      const decoded: { exp: number } = jwtDecode(token);
+      const now = Date.now();
+      const timeout = decoded.exp * 1000 - now;
+
+      if (timeout <= 0) {
+        yield put({
+          type: loginActionTypes.GET_LOGOUT_REQUEST,
+          payload: user.email,
+        });
+      } else {
+        yield delay(timeout);
+        yield put({
+          type: loginActionTypes.GET_LOGOUT_REQUEST,
+          payload: user.email,
+        });
+      }
+    } catch (err) {
+      console.error("Token decode failed:", err);
+      yield put({
+        type: loginActionTypes.GET_LOGOUT_REQUEST,
+        payload: user.email,
+      });
+    }
   }
 }
 
