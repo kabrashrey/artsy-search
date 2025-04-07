@@ -1,27 +1,23 @@
 footer {
-    background-color: #182a3a;
-    min-height: 40px;
-    text-decoration: none;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    padding: 5px 0;
-    width: 100%;
+  background-color: #182a3a;
+  min-height: 40px;
+  text-decoration: none;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 5px 0;
+  width: 100%;
 }
 
 footer a {
-    color: white;
-    text-decoration: none;
-}
-
-footer a:hover {
-    text-decoration: underline;
+  color: white;
+  text-decoration: none;
 }
 
 .footer-logo {
-    width: 20px;
-    height: 20px;
-    vertical-align: middle;
+  width: 20px;
+  height: 20px;
+  vertical-align: middle;
 }
 
 body {

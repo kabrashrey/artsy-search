@@ -74,11 +74,11 @@ const Favorites = () => {
   }, [removeFav_data]);
 
   // Load favorites only on full reload
-  // useEffect(() => {
-  //   if (Object.keys(user).length > 0 && !localFavorites.length) {
-  //     dispatch(getFav(user?.email));
-  //   }
-  // }, [dispatch, localFavorites.length]);
+  useEffect(() => {
+    if (Object.keys(user).length > 0 && !localFavorites.length) {
+      dispatch(getFav(user?.email));
+    }
+  }, [dispatch, localFavorites.length]);
 
   useEffect(() => {
     if (wasPageReloaded()) {

@@ -12,7 +12,7 @@ This web application allows users to search for artists, explore their artwork, 
 - Add/Remove artists from favorites.
 - Timer for each favorited artist showing how long ago they were added.
 - Global notifications for login, logout, and favorite actions.
-- Auto logout after 1 hour.
+- Uses Access Token to initiate auto logout after 1 hour.
 
 ## 🔧 Tech Stack
 - **Frontend:** React.js (TypeScript)

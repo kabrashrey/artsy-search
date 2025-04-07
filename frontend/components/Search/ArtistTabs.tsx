@@ -21,7 +21,7 @@ interface ArtistTabsProps {
   activeTab: string;
   setActiveTab: (tab: string) => void;
   user: any;
-  starredArtists: string[]; // Pass starred artists state
+  starredArtists: string[];
   handleStarClick: any;
 }
 
@@ -49,7 +49,6 @@ const ArtistTabs: React.FC<ArtistTabsProps> = ({
     (state: any) => state.categories
   );
 
-  // const isStarred = starredArtists.includes(artistId);
   const isStarred =
     starredArtists.find((id) => id === artist_details_data?.id) !== undefined;
 
@@ -106,7 +105,7 @@ const ArtistTabs: React.FC<ArtistTabsProps> = ({
       </div>
 
       <div className="d-flex flex-column align-items-center text-center mt-3">
-        {artist_details_loading ? (
+        {artist_details_loading && activeTab == "artist-info" ? (
           <Spinner
             as="span"
             animation="border"
@@ -135,15 +134,18 @@ const ArtistTabs: React.FC<ArtistTabsProps> = ({
                 )}
               </div>
               <h4 style={{ fontSize: "1rem" }}>
-                {artist_details_data?.nationality} (
+                {artist_details_data?.nationality},{" "}
                 {artist_details_data?.birthyear} -{" "}
-                {artist_details_data?.deathyear || "Present"})
+                {artist_details_data?.deathyear || "Present"}
               </h4>
               {artist_details_data?.biography
                 ?.replace(/(\w+)-\s+(\w+)/g, "$1$2") // Fixes split words
                 ?.split(/\n\s*\n/) // Ensure paragraph separation
                 ?.map((paragraph: any, index: any) => (
-                  <p key={index} style={{ textAlign: "justify" }}>
+                  <p
+                    key={index}
+                    style={{ textAlign: "justify", fontSize: "0.9rem" }}
+                  >
                     {paragraph}
                   </p>
                 ))}
@@ -171,13 +173,13 @@ const ArtistTabs: React.FC<ArtistTabsProps> = ({
               <Row>
                 {artworks_data.map((artwork: any, index: number) => (
                   <Col key={index} md={4} lg={3} className="mb-4">
-                    <Card className="artwork-card">
+                    <Card>
                       <Card.Img
                         variant="top"
                         src={artwork?.thumbnail_href}
                         alt={artwork?.title}
                         style={{
-                          height: "200px",
+                          // height: "200px",
                           objectFit: "cover",
                           cursor: "pointer",
                         }}
@@ -223,6 +225,14 @@ const ArtistTabs: React.FC<ArtistTabsProps> = ({
         size="xl"
       >
         <Modal.Header closeButton>
+          <style>
+            {`.btn-close {
+                        border: 1px solid #ccc;
+                        border-radius: 4px;
+                        padding: 4px;
+                        }
+          `}
+          </style>
           <Modal.Title>
             <div className="d-flex align-items-center">
               <img
@@ -231,10 +241,10 @@ const ArtistTabs: React.FC<ArtistTabsProps> = ({
                 style={{ width: "50px", height: "auto" }}
               />
               <div style={{ marginLeft: "5px" }}>
-                <p className="mb-1" style={{ fontSize: "0.8em" }}>
+                <p className="mb-0" style={{ fontSize: "0.8em" }}>
                   {artworkTitle}
                 </p>
-                <p className="mb-1" style={{ fontSize: "0.8em" }}>
+                <p className="mb-0" style={{ fontSize: "0.8em" }}>
                   {artworkYear}
                 </p>
               </div>

@@ -101,7 +101,7 @@
 
 .custom-nav-pills .nav-item {
   margin: 0;
-  padding: 0;
+  padding-top: 1rem;
 }
 
 .custom-nav-pills .nav-link.active {
@@ -125,10 +125,14 @@
 }
 
 .custom-button:hover {
-  background-color: #307eb1 !important;
+  background-color: #205375 !important;
   color: white !important;
 }
 
+custom-card-category-img {
+  height: 100%;
+
+}
 .custom-card-body-category {
   padding-left: 0;
   padding-right: 0;

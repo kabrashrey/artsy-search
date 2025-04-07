@@ -30,9 +30,9 @@ const Header = () => {
     dispatch(loginActions.clearLoginData());
     dispatch(searchActions.clearSearchResults());
     dispatch(searchActions.clearFavData());
+    dispatch(registerActions.clearRegisterData());
     setLogout(true);
     navigate("/", { state: { logout: logout } });
-    dispatch(registerActions.clearRegisterData());
     addNotification("Logged out", "success");
   };
 
@@ -40,9 +40,11 @@ const Header = () => {
     dispatch(registerActions.getDeleteAccountRequest({ email: user?.email }));
     dispatch(loginActions.clearLoginData());
     dispatch(searchActions.clearSearchResults());
+    dispatch(searchActions.clearFavData());
+    dispatch(registerActions.clearRegisterData());
     setLogout(true);
-    addNotification("Account deleted", "danger");
     navigate("/", { state: { logout: logout } });
+    addNotification("Account deleted", "danger");
   };
 
   useEffect(() => {

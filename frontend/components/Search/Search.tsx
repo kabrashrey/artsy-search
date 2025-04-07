@@ -53,7 +53,7 @@ const Search: React.FC = () => {
     setSearchPerformed(false);
     dispatch(searchActions.clearSearchResults());
     localStorage.removeItem("selectedArtist");
-    navigate("/", { replace: true, state: {} }); // navigate to search with state cleared
+    navigate("/", { replace: true, state: {} });
     setActiveTab("artist-info");
   };
 
@@ -77,7 +77,6 @@ const Search: React.FC = () => {
   const handleArtistClick = (artistId: string) => {
     setSelectedArtist(artistId);
     dispatch(searchActions.getArtistDetails(artistId));
-    setActiveTab("artist-info");
     if (Object.keys(user).length > 0) {
       dispatch(searchActions.getSimilarArtists(artistId));
     }
@@ -126,9 +125,9 @@ const Search: React.FC = () => {
     if (location.state?.artistId) {
       setSelectedArtist(location.state.artistId);
       dispatch(searchActions.getArtistDetails(location.state.artistId));
-      setArtistName(""); // Clear search bar
-      setSearchPerformed(false); // Ensure no previous search results are displayed
       dispatch(searchActions.clearSearchResults());
+      setArtistName("");
+      setSearchPerformed(false);
     }
   }, [location.state, dispatch]);
 
@@ -198,60 +197,64 @@ const Search: React.FC = () => {
 
       {/* Search Results */}
       <Container style={{ maxWidth: "82%" }}>
-        {searchPerformed && search_data?.length === 0 && !search_loading ? (
-          <Alert key="danger" variant="danger">
-            No results.
-          </Alert>
-        ) : (
-          <Row className="d-flex overflow-auto pb-3">
-            {search_data &&
-              search_data?.map((artist: any) => {
-                const isStarred = starredArtists.includes(artist.id);
-                return (
-                  <Col
-                    key={artist.id}
-                    className="d-flex justify-content-center align-self-start"
-                  >
-                    <Card
-                      className={`custom-card ${
-                        selectedArtist === artist.id ? "selected" : ""
-                      }`}
-                      onClick={() => {
-                        handleArtistClick(artist.id);
-                      }}
-                      style={{ cursor: "pointer" }}
-                    >
-                      {Object.keys(user).length > 0 ? (
-                        <div
-                          className="star-icon-wrapper"
-                          onClick={(e) => {
-                            e.stopPropagation();
-                            handleStarClick(artist?.id, isStarred);
+        {searchPerformed && (
+          <>
+            {search_data?.length === 0 && !search_loading ? (
+              <Alert key="danger" variant="danger">
+                No results.
+              </Alert>
+            ) : (
+              <Row className="d-flex overflow-auto pb-3">
+                {search_data &&
+                  search_data?.map((artist: any) => {
+                    const isStarred = starredArtists.includes(artist.id);
+                    return (
+                      <Col
+                        key={artist.id}
+                        className="d-flex justify-content-center align-self-start"
+                      >
+                        <Card
+                          className={`custom-card ${
+                            selectedArtist === artist.id ? "selected" : ""
+                          }`}
+                          onClick={() => {
+                            handleArtistClick(artist.id);
                           }}
+                          style={{ cursor: "pointer" }}
                         >
-                          <FontAwesomeIcon
-                            icon={isStarred ? solidStar : regularStar}
-                            style={{
-                              color: isStarred ? "gold" : "white",
-                              cursor: "pointer",
-                              fontSize: "20px",
-                            }}
+                          {Object.keys(user).length > 0 ? (
+                            <div
+                              className="star-icon-wrapper"
+                              onClick={(e) => {
+                                e.stopPropagation();
+                                handleStarClick(artist?.id, isStarred);
+                              }}
+                            >
+                              <FontAwesomeIcon
+                                icon={isStarred ? solidStar : regularStar}
+                                style={{
+                                  color: isStarred ? "gold" : "white",
+                                  cursor: "pointer",
+                                  fontSize: "20px",
+                                }}
+                              />
+                            </div>
+                          ) : null}
+                          <Card.Img
+                            variant="top"
+                            src={artist.thumbnail || artsy_logo}
+                            alt={artist.title}
                           />
-                        </div>
-                      ) : null}
-                      <Card.Img
-                        variant="top"
-                        src={artist.thumbnail || artsy_logo}
-                        alt={artist.title}
-                      />
-                      <Card.Body className="custom-card-body text-white">
-                        <Card.Text>{artist.title}</Card.Text>
-                      </Card.Body>
-                    </Card>
-                  </Col>
-                );
-              })}
-          </Row>
+                          <Card.Body className="custom-card-body text-white">
+                            <Card.Text>{artist.title}</Card.Text>
+                          </Card.Body>
+                        </Card>
+                      </Col>
+                    );
+                  })}
+              </Row>
+            )}
+          </>
         )}
         {/* Artist Details (Displayed Below Results) */}
         {selectedArtist && (
@@ -260,7 +263,7 @@ const Search: React.FC = () => {
             activeTab={activeTab}
             setActiveTab={handleTabChange}
             user={user}
-            starredArtists={starredArtists} // Pass starred artists state
+            starredArtists={starredArtists}
             handleStarClick={handleStarClick}
           />
         )}
@@ -270,7 +273,7 @@ const Search: React.FC = () => {
             similar_artists={similar_artists_data}
             activeTab={activeTab}
             user={user}
-            starredArtists={starredArtists} // Pass starred artists state
+            starredArtists={starredArtists}
             handleStarClick={handleStarClick}
             handleArtistClick={handleArtistClick}
             setSelectedArtist={setSelectedArtist}
