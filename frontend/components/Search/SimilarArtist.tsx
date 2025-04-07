@@ -11,7 +11,7 @@ interface SimilarArtistProps {
   similar_artists: any;
   activeTab: string;
   user: any;
-  starredArtists: string[]; // Pass starred artists state
+  starredArtists: string[];
   handleStarClick: any;
   handleArtistClick: any;
   setSelectedArtist: any;
@@ -28,15 +28,6 @@ const SimilarArtist: React.FC<SimilarArtistProps> = ({
   setSelectedArtist,
   selectedArtist,
 }) => {
-  // const dispatch = useDispatch();
-  // const [selectedArtist, setSelectedArtist] = useState<string | null>(null);
-
-  // const handleArtistClick = (artistId: string) => {
-  //   setSelectedArtist(artistId);
-  //   dispatch(searchActions.getArtistDetails(artistId));
-  //   dispatch(searchActions.getSimilarArtists(artistId));
-  //   dispatch(searchActions.getFav(user.email));
-  // };
   return (
     <>
       <Container>

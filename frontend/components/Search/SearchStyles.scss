@@ -1,4 +1,4 @@
-/* Individual Card Styling */
+/* Individual Card */
 .custom-card {
   background-color: #205375;
   width: 200px;
@@ -13,7 +13,6 @@
   }
 }
 
-/* Prevents the cards from shrinking when the window is resized */
 .d-flex {
   flex-wrap: nowrap;
 }
@@ -58,7 +57,7 @@
 
 .fixed-img {
   height: 15rem;
-  object-fit: cover; /* Ensure image covers the card without distortion */
+  object-fit: cover;
   width: 100%;
 }
 
@@ -68,7 +67,7 @@
   color: white;
   text-overflow: ellipsis;
   overflow: hidden;
-  white-space: nowrap; /* Prevent text wrapping */
+  white-space: nowrap;
   margin: 0;
 }
 

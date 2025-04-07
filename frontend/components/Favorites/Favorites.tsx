@@ -18,9 +18,9 @@ const Favorites = () => {
   const { fav_data, fav_loading } = useSelector((state: any) => state.get_fav);
   const { removeFav_data } = useSelector((state: any) => state.remove_fav);
   const [localFavorites, setLocalFavorites] = useState(fav_data || []);
-  // const [timeAgo, setTimeAgo] = useState<{ [key: string]: string }>({});
   const [currentTime, setCurrentTime] = useState(Date.now());
   const [isRemoving, setIsRemoving] = useState(false);
+  const [showSpinner, setShowSpinner] = useState(false);
 
   const getTimeAgo = (timestamp: string) => {
     const diff = Math.floor(
@@ -30,6 +30,15 @@ const Favorites = () => {
     if (diff < 3600) return `${Math.floor(diff / 60)} minutes ago`;
     if (diff < 86400) return `${Math.floor(diff / 3600)} hours ago`;
     return `${Math.floor(diff / 86400)} days ago`;
+  };
+
+  const wasPageReloaded = () => {
+    const entries = performance.getEntriesByType(
+      "navigation"
+    ) as PerformanceNavigationTiming[];
+    if (entries.length > 0 && entries[0].type === "reload") {
+      return true;
+    }
   };
 
   const handleRemove = (artistId: string) => {
@@ -65,25 +74,17 @@ const Favorites = () => {
   }, [removeFav_data]);
 
   // Load favorites only on full reload
-  useEffect(() => {
-    if (Object.keys(user).length > 0 && !localFavorites.length) {
-      dispatch(getFav(user?.email));
-    }
-  }, [dispatch, localFavorites.length]);
-
   // useEffect(() => {
-  //   const interval = setInterval(() => {
-  //     setTimeAgo((prevTimeAgo) => {
-  //       const updatedTimeAgo = { ...prevTimeAgo };
-  //       localFavorites?.forEach((artist: any) => {
-  //         updatedTimeAgo[artist.fav_id] = getTimeAgo(artist.added_at);
-  //       });
-  //       return updatedTimeAgo;
-  //     });
-  //   }, 1000);
-  //   // Clean up the interval on component unmount
-  //   return () => clearInterval(interval);
-  // }, [localFavorites]);
+  //   if (Object.keys(user).length > 0 && !localFavorites.length) {
+  //     dispatch(getFav(user?.email));
+  //   }
+  // }, [dispatch, localFavorites.length]);
+
+  useEffect(() => {
+    if (wasPageReloaded()) {
+      setShowSpinner(true);
+    }
+  }, []);
 
   useEffect(() => {
     const interval = setInterval(() => {
@@ -94,7 +95,7 @@ const Favorites = () => {
 
   return (
     <Container className="py-4">
-      {fav_loading && !localFavorites.length ? (
+      {showSpinner && fav_loading && !localFavorites.length ? (
         <div className="text-center">
           <Spinner animation="border" variant="primary" />
         </div>
@@ -137,7 +138,7 @@ const Favorites = () => {
                     {artist.nationality}
                   </p>
                   <small>{getTimeAgo(artist.added_at)}</small>
-                  {/* Remove Link (Bottom-Right) */}
+                  {/* Remove Link */}
                   <div
                     style={{
                       position: "absolute",

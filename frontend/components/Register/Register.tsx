@@ -23,7 +23,6 @@ const Registration = () => {
   });
 
   const [isFormValid, setIsFormValid] = useState(false);
-  // const [isLoggedIn, setIsLoggedIn] = useState(false);
 
   let { register_data, register_error } = useSelector(
     (state: any) => state.register
@@ -91,7 +90,6 @@ const Registration = () => {
 
   useEffect(() => {
     if (register_data) {
-      // setIsLoggedIn(true);
       navigate("/", {
         state: { email: formData.email, password: formData.password },
       });
