@@ -156,7 +156,7 @@ const Search: React.FC = () => {
       <div className="d-flex justify-content-center align-items-center vh-10">
         <InputGroup
           className="mb-2 py-4 rounded-pill w-80"
-          style={{ maxWidth: "80%" }}
+          style={{ maxWidth: "90%", padding: 0 }}
         >
           <Form.Control
             name="artistName"
@@ -196,7 +196,7 @@ const Search: React.FC = () => {
       </div>
 
       {/* Search Results */}
-      <Container style={{ maxWidth: "82%" }}>
+      <Container style={{ maxWidth: "90%" }}>
         {searchPerformed && (
           <>
             {search_data?.length === 0 && !search_loading ? (

@@ -61,6 +61,14 @@
   width: 100%;
 }
 
+@media (max-width: 820px) {
+  .fixed-img {
+    height: 10rem;
+    width: 100%;
+    object-fit: cover;
+  }
+}
+
 .artist-name {
   font-size: 14px;
   font-weight: 500;
@@ -131,7 +139,6 @@
 
 custom-card-category-img {
   height: 100%;
-
 }
 .custom-card-body-category {
   padding-left: 0;

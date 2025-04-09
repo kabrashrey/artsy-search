@@ -76,7 +76,7 @@ const Header = () => {
               <Nav.Link
                 as={Link}
                 to="/"
-                className={`nav-item mx-3 ${
+                className={`navbar-nav-item ${
                   activeLink === "/" ? "active-link" : ""
                 }`}
               >
@@ -88,7 +88,7 @@ const Header = () => {
                   <Nav.Link
                     as={Link}
                     to="/favorites"
-                    className={`nav-item mx-3 ${
+                    className={`navbar-nav-item ${
                       activeLink === "/favorites" ? "active-link" : ""
                     }`}
                   >
@@ -129,7 +129,7 @@ const Header = () => {
                   <Nav.Link
                     as={Link}
                     to="/login"
-                    className={`nav-item mx-3 ${
+                    className={`navbar-nav-item ${
                       activeLink === "/login" ? "active-link" : ""
                     }`}
                   >
@@ -138,7 +138,7 @@ const Header = () => {
                   <Nav.Link
                     as={Link}
                     to="/register"
-                    className={`nav-item mx-3 ${
+                    className={`navbar-nav-item ${
                       activeLink === "/register" ? "active-link" : ""
                     }`}
                   >
