@@ -47,6 +47,7 @@ const getGenes = asyncHandler(
       const finalResult = results.map((item: any) => ({
         name: item.name,
         thumbnail_href: item._links.thumbnail.href,
+        description: item.description,
       }));
 
       return res
