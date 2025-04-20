@@ -53,13 +53,21 @@ const getArtists = asyncHandler(
 
       const result = artsyResponse.data;
       const finalResult = {
-        id: id,
-        title: result.name,
-        birthyear: result.birthday,
-        nationality: result.nationality,
-        biography: sanitizeText(result.biography),
-        deathyear: result.deathday,
+        id: id ?? null,
+        title: result?.name ?? "",
+        birthyear: result?.birthday ?? "",
+        nationality: result?.nationality ?? "",
+        biography: result?.biography ? sanitizeText(result.biography) : null,
+        deathyear: result?.deathday ?? "",
       };
+      // const finalResult = {
+      //   id: id,
+      //   title: result.name,
+      //   birthyear: result.birthday,
+      //   nationality: result.nationality,
+      //   biography: result.biography ? sanitizeText(result.biography) : null,
+      //   deathyear: result.deathday,
+      // };
 
       return res
         .status(artsyResponse.status)
