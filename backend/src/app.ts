@@ -13,8 +13,11 @@ import genesRouter from "./routes/genes.routes.js";
 import favsRouter from "./routes/favs.routes.js";
 import { errorHandler } from "./middlewares/error.middleware.js";
 import { constants } from "./constants.js";
+import { loadSecrets } from "./utils/utils.js";
 
 const app = express();
+
+await loadSecrets();
 
 app.use(
   cors({
