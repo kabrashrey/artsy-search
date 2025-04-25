@@ -6,6 +6,7 @@ import { APIError } from "../utils/APIError.js";
 import { APIResponse } from "../utils/APIResponse.js";
 import { Tokens } from "../models/token.models.js";
 import { constants } from "../constants.js";
+import { getSecret } from "../utils/utils.js";
 
 
 const getToken = async (): Promise<any> => {
@@ -17,8 +18,8 @@ const getToken = async (): Promise<any> => {
     }
     const url = constants.AUTH;
     const data = {
-      client_id: constants.CLIENT_ID,
-      client_secret: constants.CLIENT_SECRET,
+      client_id: await getSecret("CLIENT_ID"),
+      client_secret: await getSecret("CLIENT_SECRET"),
     };
 
     if (!url || !data.client_id || !data.client_secret) {
