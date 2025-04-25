@@ -13,6 +13,7 @@ This web application allows users to search for artists, explore their artwork, 
 - Timer for each favorited artist showing how long ago they were added.
 - Global notifications for login, logout, and favorite actions.
 - Uses Access Token to initiate auto logout after 1 hour.
+- Secrets managed using Google Cloud Secret Manager
 
 ## 🔧 Tech Stack
 - **Frontend:** React.js (TypeScript)
@@ -20,7 +21,7 @@ This web application allows users to search for artists, explore their artwork, 
 - **Database:** MongoDB
 - **API Data Source:** [Artsy API](https://www.artsy.net/)
 - **State Management:** Redux
-- **Styling:** SCSS, Bootstrap
+- **Styling:** SCSS, React-Bootstrap
 
 ## 🔗 API Integration
 The project fetches artist data from **Artsy.com**, processes the responses, and renders them in the UI.
