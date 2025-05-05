@@ -17,8 +17,8 @@ const getToken = async (): Promise<any> => {
       return existingToken.token;
     }
     const url = constants.AUTH;
-    const clientId = getCachedSecret("CLIENT_ID");
-    const clientSecret = getCachedSecret("CLIENT_SECRET");
+    const clientId = constants.CLIENT_ID;
+    const clientSecret = constants.CLIENT_SECRET;
     const data = {
       client_id: clientId,
       client_secret: clientSecret,

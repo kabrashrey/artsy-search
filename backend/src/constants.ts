@@ -10,4 +10,6 @@ export const constants = {
   REFRESH_TOKEN_SECRET: "artsy-shrey-3",
   REFRESH_TOKEN_EXPIRY: "10d",
   CORS_ORIGIN: "*",
+  CLIENT_ID: "e96e6b966f7331484682",
+  CLIENT_SECRET: "a3a2b3beacc7b3525ea9c3f4b245fb1d",
 };
