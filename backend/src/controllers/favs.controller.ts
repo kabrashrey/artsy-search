@@ -45,6 +45,12 @@ const addFav = asyncHandler(
       throw new APIError(400, "ID, and Email is required");
     }
 
+    // Ensure fav_id matches a safe format (e.g., alphanumeric, length limit)
+    const favIdPattern = /^[a-zA-Z0-9_-]{1,50}$/; // Example pattern
+    if (!favIdPattern.test(fav_id)) {
+      throw new APIError(400, "Invalid fav_id format");
+    }
+
     const existingFav = await Favourites.findOne({ fav_id, email });
     if (existingFav) {
       throw new APIError(409, `${fav_id} already in ${email} favourites.`);
